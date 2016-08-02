@@ -20,7 +20,6 @@ env.roledefs = {
 
 env.fixtures = (
     'flatpages',
-        # 'restful.tbkcategory',
     'restful.goodscategory',
     'restful.total',
     'restful.goods',
@@ -29,7 +28,6 @@ env.fixtures = (
     'restful.holiday',
     'restful.queryrule',
     'consumer.customuser',
-    # 'restful.description',
 )
 
 env.excludes = (
@@ -39,10 +37,6 @@ env.excludes = (
 env.remote_dir = '/home/apps/surprise'
 env.local_dir = '.'
 env.database = 'surprise'
-
-
-# createuser surprise -P
-# dropdb surprise; createdb surprise -O surprise -E UTF8 -e
 
 
 @task
