@@ -1,0 +1,7 @@
+-r base.txt
+django-debug-toolbar
+django-coverage
+django-baker
+django-seed
+ipython
+fabric

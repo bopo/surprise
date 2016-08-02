@@ -1,0 +1,1 @@
+[{"fields": {"ordering": 1, "cover": "./wanfa.png", "click": "http://api.gjingxi.com/help/", "summary": "\u5e2e\u52a9"}, "model": "restful.banner", "pk": 1}, {"fields": {"ordering": 1, "cover": "./fenx.png", "click": "http://api.gjingxi.com/share/invite/mmmm", "summary": "\u5206\u4eab\u6709\u5956"}, "model": "restful.banner", "pk": 2}]
