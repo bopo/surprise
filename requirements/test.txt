@@ -1,0 +1,13 @@
+-r base.txt
+
+django-nose
+coverage
+doctest2
+pytest
+trial
+mock
+nose
+tox
+
+flake8
+django-test-plus

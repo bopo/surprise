@@ -1,0 +1,62 @@
+django >= 1.8, < 1.9
+
+# django rest framework
+djangorestframework-word-filter
+djangorestframework-recursive
+djangorestframework-filters
+django-rest-multiple-models
+djangorestframework-oauth
+djangorestframework
+drf-nested-routers
+drf-extensions
+
+# django plugins
+django-suit
+django-suit-ckeditor
+django-suit-redactor
+django-import-export
+django-cors-headers
+django-extra-fields
+django-model-utils
+django_extensions
+django-rest-auth
+#django-sendfile
+#django-allauth
+
+django-environ
+django-secure
+
+#django-taggit
+django-filter
+django-celery
+django-mptt>=0.8.3
+
+# librares
+easy_thumbnails
+whitenoise
+#pypinyin
+docutils
+
+#django config
+django-configurations
+django-cachalot
+
+django-imagekit
+django-rest-swagger
+
+jinja2
+jpush
+django-easy-select2
+django-shortuuidfield
+short_url
+unicode-slugify
+qrcode
+django-reversion==1.10.2
+bs4
+djangorestframework-msgpack
+wechatpy
+html5lib
+
+click
+plan
+django-allauth

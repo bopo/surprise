@@ -1,0 +1,10 @@
+scrapy
+scrapy-sentry
+django-scrapy
+scrapy-sqlitem
+scrapy-mongodb
+scrapy-djangoitem
+
+scrapyd
+scrapyd-client
+django-dynamic-scraper
