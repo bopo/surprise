@@ -12,7 +12,7 @@ class FirstPrizeAdmin(VersionAdmin):
     form = select2_modelform(FirstPrize, attrs={'width': '250px'})
     search_fields = ('name', 'goods__title')
     list_display_links = ('prizegoods',)
-    list_display = ('screensize', 'platform', 'location', 'phonemodel', 'prizegoods')
+    list_display = ('screensize', 'platform', 'location', 'phonemodel', 'prizegoods', 'phonebrand')
 
 
 admin.site.register(FirstPrize, FirstPrizeAdmin)

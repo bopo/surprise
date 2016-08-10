@@ -11,3 +11,5 @@ tox
 
 flake8
 django-test-plus
+django-selenium-clean
+django-webdriver

@@ -187,6 +187,7 @@ class RestApi(object):
         self.__domain = domain
         self.__port = port
         self.__httpmethod = "POST"
+
         if (top.getDefaultAppInfo()):
             self.__app_key = top.getDefaultAppInfo().appkey
             self.__secret = top.getDefaultAppInfo().secret
@@ -244,6 +245,7 @@ class RestApi(object):
         connection.connect()
 
         header = self.get_request_header();
+
         if (self.getMultipartParas()):
             form = MultiPartForm()
             for key, value in application_parameter.items():
@@ -260,10 +262,13 @@ class RestApi(object):
         url = N_REST + "?" + urllib.urlencode(sys_parameters)
         connection.request(self.__httpmethod, url, body=body, headers=header)
         response = connection.getresponse();
+
         if response.status is not 200:
             raise RequestException('invalid http status ' + str(response.status) + ',detail body:' + response.read())
+        
         result = response.read()
         jsonobj = json.loads(result)
+        
         if jsonobj.has_key("error_response"):
             error = TopException()
             if jsonobj["error_response"].has_key(P_CODE):

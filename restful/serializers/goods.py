@@ -40,11 +40,12 @@ class CollectSerializer(serializers.Serializer):
 
 class ChildrenSerializer(serializers.ModelSerializer):
     class Meta:
+        model = GoodsCategory
         fields = ('id', 'cover', 'name')
 
 
 class GoodsChildrenSerializer(serializers.ModelSerializer):
-    children = ChildrenSerializer
+    children = ChildrenSerializer(many=True, read_only=True)
 
     def setup_eager_loading(cls, queryset):
         queryset = queryset.prefetch_related('children')
@@ -52,7 +53,7 @@ class GoodsChildrenSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = GoodsCategory
-        depth = 1
+        # depth = 2
         fields = ('id', 'cover', 'name', 'children')
 
 

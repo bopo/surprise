@@ -2,10 +2,11 @@
 from django.contrib import admin
 from easy_select2 import select2_modelform
 from import_export.admin import ImportExportModelAdmin
-from mptt.admin import MPTTModelAdmin, DraggableMPTTAdmin
+from mptt.admin import DraggableMPTTAdmin, MPTTModelAdmin
 from reversion.admin import VersionAdmin
+from suit.admin import SortableModelAdmin
 
-from ..models.goods import Goods, GoodsCategory as Category, TBKCategory
+from ..models.goods import Goods, GoodsCategory as Category, PreselectionCategory
 from ..resources.category import GoodsCategoryResource
 from ..resources.goods import GoodsResource
 
@@ -65,6 +66,19 @@ class GoodsAdmin(VersionAdmin, ImportExportModelAdmin):
     actions = [make_recommend, make_unrecommend, 'delete_selected']
 
 
+class PreselectionCategoryAdmin(MPTTModelAdmin, SortableModelAdmin):
+    form = select2_modelform(PreselectionCategory, attrs={'width': '250px'})
+
+    mptt_level_indent = 20
+    sortable = 'ordering'
+
+    search_fields = ('name',)
+
+    list_editable = ('category', 'is_active')
+    list_display = ('name', 'source', 'category', 'is_active')
+    list_filter = ('source',)
+
+
 class CategoryAdmin(VersionAdmin, DraggableMPTTAdmin, ImportExportModelAdmin):
     form = select2_modelform(Category, attrs={'width': '250px'})
     resource_class = GoodsCategoryResource
@@ -74,10 +88,11 @@ class CategoryAdmin(VersionAdmin, DraggableMPTTAdmin, ImportExportModelAdmin):
     # list_filter = ('parent__parent',)
 
 
-class TBKCategoryAdmin(VersionAdmin, DraggableMPTTAdmin):
-    mptt_level_indent = 20
+# class TBKCategoryAdmin(VersionAdmin, DraggableMPTTAdmin):
+#     mptt_level_indent = 20
 
 
-admin.site.register(TBKCategory, TBKCategoryAdmin)
+# admin.site.register(TBKCategory, TBKCategoryAdmin)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Goods, GoodsAdmin)
+admin.site.register(PreselectionCategory, PreselectionCategoryAdmin)

@@ -21,8 +21,10 @@ env.roledefs = {
 env.fixtures = (
     'flatpages',
     'restful.goodscategory',
+    'restful.preselectioncategory',
     'restful.total',
     'restful.goods',
+    'restful.collect',
     'restful.prompt',
     'restful.banner',
     'restful.holiday',
@@ -32,7 +34,7 @@ env.fixtures = (
 
 env.excludes = (
     "*.pyc", "*.db", ".DS_Store", ".coverage", ".git", ".hg", ".tox", ".idea/",
-    'assets/', 'database/backups', 'database/fixtures/', 'runtime/')
+    'assets/', 'database/backups', 'database/fixtures/', 'runtime/','node_modules')
 
 env.remote_dir = '/home/apps/surprise'
 env.local_dir = '.'
@@ -227,7 +229,8 @@ def restdb():
     local('dropdb {database}'.format(database=env.database))
     local('createdb {database} -O {database} -E UTF8 -e'.format(database=env.database))
     local('python manage.py migrate --noinput')
-    local('python manage.py loaddata database/fixtures/*.json')
+    # local('python manage.py loaddata database/fixtures/*.json')
+    loaddata()
 
 
 @task
@@ -271,6 +274,26 @@ def syncdb(action='down'):
     # else:
     # restdb()
 
+@task
+def migrate():
+    # backup data
+    run('manage.py dumpdata --format=json > db.json')
+
+    # rsync files.
+    local('rsync -ave ssh rsync -ave ssh root@101.200.136.70:/home/apps/surprise /home/apps')
+    
+    # stop service
+    local('/usr/bin/supervisorctl stop surprise')
+
+    # migrate db
+    local('dropdb {database}'.format(database=env.database))
+    local('createdb {database} -O {database} -E UTF8 -e'.format(database=env.database))
+    
+    local('python manage.py migrate --noinput')
+    local('python manage.py loaddata db.json')
+
+    # start service
+    local('/usr/bin/supervisorctl start surprise')
 
 @task
 def req():
