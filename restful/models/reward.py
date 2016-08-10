@@ -30,6 +30,7 @@ class First(models.Model):
     location = models.CharField(verbose_name=_(u'地址信息'), max_length=200, blank=False)
     coordinate = models.CharField(verbose_name=_(u'位置坐标'), max_length=200, blank=False)
     screensize = models.CharField(verbose_name=_(u'屏幕尺寸'), max_length=200, blank=False)
+    phonebrand = models.CharField(verbose_name=_(u'手机品牌'), max_length=100, blank=True, null=True)
 
     class Meta:
         verbose_name = _(u'首登奖励')
@@ -57,6 +58,7 @@ class FirstPrize(models.Model):
     screensize = models.CharField(verbose_name=_(u'屏幕尺寸'), max_length=200, blank=False, choices=SCREENSIZE_CHOICES)
     prizegoods = models.ForeignKey(Goods, verbose_name=_(u'对应奖品'), blank=True, null=True)
     phonemodel = models.CharField(verbose_name=_(u'手机型号'), max_length=100, blank=True, null=True)
+    phonebrand = models.CharField(verbose_name=_(u'手机品牌'), max_length=100, blank=True, null=True)
 
     class Meta:
         verbose_name = _(u'首登奖品')

@@ -8,7 +8,6 @@ try:
 except ImportError, e:
     raise e
 
-
 DEBUG = True
 
 DATABASES = {
@@ -26,7 +25,6 @@ DATABASES = {
         'timezone': 'UTC',
     }
 }
-
 
 # CACHES = {
 #     'default': {
@@ -54,7 +52,7 @@ DATABASES = {
 #     }
 # }
 
-
+# INSTALLED_APPS += ('cachalot',)
 
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 # CACHE_BACKEND = 'redis_cache.cache://127.0.0.1:6379'

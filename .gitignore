@@ -19,3 +19,8 @@ MANIFEST
 !.gitignore
 !.travis.yml
 !.isort.cfg
+assets/
+frontend/static/frontend/lib/
+restful/contrib/restauth/tests/__pycache__/
+runtime/
+tests/__pycache__/

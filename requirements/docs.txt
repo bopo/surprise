@@ -1,1 +1,8 @@
 django-rest-swagger
+pydoc
+sphinx
+pydoctor
+sphinx_rtd_theme
+
+# gem install yard
+# gem install jazzy

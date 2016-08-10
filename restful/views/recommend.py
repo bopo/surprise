@@ -8,12 +8,11 @@ from django.core.cache import cache
 from django.db.models import Q
 from django.utils.timezone import now, timedelta
 from django_filters import FilterSet, NumberFilter
+from rest_framework import filters
 from rest_framework import mixins
 from rest_framework import viewsets, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-# from django.f import filters
-from rest_framework import filters
 
 from restful.contrib.restauth.settings import TokenSerializer
 from restful.models.affairs import Holiday
@@ -83,7 +82,7 @@ class SearchViewSet(viewsets.ReadOnlyModelViewSet, BaseViewSet):
         ?ordering=-promotion_price 代表倒序 (字段前面加个 - 代表倒序)
     '''
     # queryset = Goods.objects.filter(delist_time__gt=now())
-    queryset = Goods.objects.all()
+    queryset = Goods.objects.filter(open_iid__isnull=False)
     serializer_class = GoodsSerializer
     filter_backends = (filters.DjangoFilterBackend, filters.OrderingFilter,)
     # filter_class = SearchFilter
@@ -234,7 +233,7 @@ class RecommendViewSet(viewsets.ReadOnlyModelViewSet):
     '''
     '''
     # queryset = Goods.objects.filter(recommend=1, delist_time__gt=now()).order_by('ordering')
-    queryset = Goods.objects.filter(recommend=1).order_by('ordering')
+    queryset = Goods.objects.filter(recommend=1, open_iid__isnull=False).order_by('ordering')
     # queryset = Goods.objects.filter(recommend=1)
     serializer_class = GoodsSerializer
 

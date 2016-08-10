@@ -19,7 +19,7 @@ def get_items(item):
     req = top.api.AtbItemsGetRequest()
     req.set_app_info(top.appinfo(APPKEY, SECRET))
     req.cid = item['cid']
-    req.keyword = item['title']
+    req.keyword = item['title'].encode('utf-8')
     req.fields = "num_iid,open_iid,title,nick,pic_url,price,commission,commission_rate," \
                  "commission_num,commission_volume,seller_credit_score,item_location,volume,promotion_price"
 
@@ -31,12 +31,11 @@ def get_items(item):
         if nums > 0:
             for result in resp.get('atb_items_get_response').get('items').get('aitaobao_item'):
                 if result['open_iid'] == item['open_iid']:
-                    # print u'[√] found goods...done!'
-                    print u'√'
+                    print u'[√] found goods...done!'
 
                     item.update(result)
         else:
-            print u'x'
+            print u'[x]'
             item['bad'] = True
 
     except Exception, e:
@@ -120,7 +119,7 @@ def convert(num_iids, _detail=False):
 
             items = []
         return rows
-    except Exception, e:
+    except TopException, e:
         traceback.print_exc()
         print 'covert', e.message
         return []
