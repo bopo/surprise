@@ -16,7 +16,7 @@ cron.script('manage.py runscript collect_liwushuo_items', every='9.hour')
 # cron.script('manage.py runjob n2oid', every='3.hour')
 
 cron.script('manage.py runjob trend', every='16.hour')
-# cron.script('manage.py dumpdata --format=json > /home/apps/surprise/database/backups/$(date +%Y-%m-%d_%H:%M).json', every='16.hour')
+cron.script('manage.py runjob reward', every='1.day')
 
 cron.command('/home/apps/surprise/crontab/db_backup.sh', every='15.minute')
 cron.command('/usr/bin/rsync -av /home/apps/surprise /home/apps/backups', every='15.day')

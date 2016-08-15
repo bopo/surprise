@@ -9,10 +9,10 @@ from ..models.reward import FirstPrize
 
 
 class FirstPrizeAdmin(VersionAdmin):
-    form = select2_modelform(FirstPrize, attrs={'width': '250px'})
-    search_fields = ('name', 'goods__title')
+    # form = select2_modelform(FirstPrize, attrs={'width': '250px'})
+    # search_fields = ('name', 'goods__title')
     list_display_links = ('prizegoods',)
-    list_display = ('screensize', 'platform', 'location', 'phonemodel', 'prizegoods', 'phonebrand')
+    list_display = ('platform', 'screensize', 'phonebrand', 'phonemodel', 'prizegoods', 'location',)
 
 
 admin.site.register(FirstPrize, FirstPrizeAdmin)

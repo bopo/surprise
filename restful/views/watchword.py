@@ -159,11 +159,13 @@ class WatchwordViewSet(GenericViewSet):
         if not item:
             item = items(word, 50, sort)
 
-        for k, v in enumerate(item):
-            item[k]['thumb'] = '%s_800x800.jpg' % v.get('pic_url')
-            item[k]['detail_url'] = reverse('v1.0:goods-detail', request=request, args=[v.get('open_iid')])
-            cache.set(v.get('open_iid'), item[k], 60)
+        if item:
+            for k, v in enumerate(item):
+                item[k]['thumb'] = '%s_800x800.jpg' % v.get('pic_url')
+                item[k]['detail_url'] = reverse('v1.0:goods-detail', request=request, args=[v.get('open_iid')])
+                cache.set(v.get('open_iid'), item[k], 60)
+        else:
+            item = []
 
         data = {'results': item}
-
         return Response(data, status=status.HTTP_201_CREATED)

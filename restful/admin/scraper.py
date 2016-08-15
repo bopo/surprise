@@ -27,5 +27,5 @@ class GoodsItemsAdmin(admin.ModelAdmin):
     url_.allow_tags = True
 
 
-admin.site.register(CollectWebsite, CollectWebsiteAdmin)
-admin.site.register(GoodsItems, GoodsItemsAdmin)
+# admin.site.register(CollectWebsite, CollectWebsiteAdmin)
+# admin.site.register(GoodsItems, GoodsItemsAdmin)

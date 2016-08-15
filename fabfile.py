@@ -275,7 +275,7 @@ def syncdb(action='down'):
     # restdb()
 
 @task
-def migrate():
+def dbmigrate():
     # backup data
     run('manage.py dumpdata --format=json > db.json')
 

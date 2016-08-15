@@ -3,13 +3,11 @@ from __future__ import unicode_literals
 
 from django.conf import settings
 from django.db import models
-from django.db.models.signals import pre_delete
-from django.dispatch import receiver
 from django.utils.translation import ugettext_lazy as _
 from dynamic_scraper.models import Scraper, SchedulerRuntime
 from scrapy_djangoitem import DjangoItem
 
-from .goods import GoodsCategory, Goods
+from .goods import GoodsCategory
 
 BEST_RATE = settings.BEST_RATE
 
@@ -48,7 +46,6 @@ class GoodsItems(models.Model):
 
 class GoodsItem(DjangoItem):
     django_model = GoodsItems
-
 
 # @receiver(pre_delete)
 # def pre_delete_handler(sender, instance, using, **kwargs):

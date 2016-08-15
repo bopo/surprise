@@ -237,6 +237,10 @@ def get_trend():
     return ret
 
 
+
+
+
+
 if __name__ == '__main__':
     text = u'我是你的朋友, 我邀请你加入够惊喜'
     qr = createQRCode(data=text, size=11)

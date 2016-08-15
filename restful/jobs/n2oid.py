@@ -14,7 +14,7 @@ class Job(BaseJob):
     def execute(self):
         # 分页
         # collects = Collect.objects.filter(goods_ptr__item_img__isnull=True).order_by('id')
-        collects = Collect.objects.filter(goods_ptr__open_iid__isnull=True).order_by('id')
+        collects = Collect.objects.filter(goods_ptr__open_iid__isnull=True, coverted=0)
         # collects = Collect.objects.filter(goods_ptr__item_img='[]')
         # collects = Collect.objects.all().order_by('id')
         paginator = Paginator(collects, 10)
@@ -45,8 +45,7 @@ class Job(BaseJob):
             item = convert(open_id, True)
 
             if not item:
-                c = Collect.objects.filter(num_iid__in=open_id)
-                c.save(bad=1)
+                c = Collect.objects.filter(num_iid__in=open_id).update(coverted = 1)
                 del c
 
             print k, item
@@ -62,10 +61,7 @@ class Job(BaseJob):
                         continue
 
                     if i.get('bad'):
-                        
-                        bsd = Collect.objects.filter(num_iid=i['open_id'])
-                        bad.bad = 1
-                        bad.save()
+                        bad = Collect.objects.filter(num_iid=i['open_id']).update(coverted = 1)
                         del bad
 
                         print '[!!] bad', i.get('title')

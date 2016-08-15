@@ -56,4 +56,4 @@ class CustomerHyperlink(serializers.HyperlinkedRelatedField):
 class FirstSerializer(serializers.ModelSerializer):
     class Meta:
         model = First
-        fields = ('platform', 'coordinate', 'screensize', 'phonebrand')
+        fields = ('platform', 'coordinate', 'screensize', 'phonebrand', 'phonemodel')

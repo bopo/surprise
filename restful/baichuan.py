@@ -3,12 +3,13 @@ import json
 import time
 import traceback
 
-import top
-import top.api
 from django.conf import settings
 from django.core.paginator import Paginator
 
+import top
+import top.api
 from restful.models.goods import Goods
+from top.api.base import TopException
 
 APPKEY = settings.TOP_APPKEY  # '23255563'
 SECRET = settings.TOP_SECRET  # 'f7092fdb96f20625742d577820936b5c'
@@ -38,11 +39,13 @@ def get_items(item):
             print u'[x]'
             item['bad'] = True
 
-    except Exception, e:
+    except TopException, e:
         print u'x'
         print 'items', e
-        # if page <= 10:
-        #     return get_items(item, page + 1)
+        if e.errorcode == 48:
+            time.sleep(120)
+            # if page <= 10:
+            #     return get_items(item, page + 1)
 
     return item
 
@@ -78,7 +81,7 @@ def get_detail(items):
         # print rows
         return rows
 
-    except Exception, e:
+    except TopException, e:
 
         for k, v in enumerate(items):
             items[k]['bad'] = True
@@ -121,5 +124,5 @@ def convert(num_iids, _detail=False):
         return rows
     except TopException, e:
         traceback.print_exc()
-        print 'covert', e.message
+        print 'covert', e.message, e.errorcode, e.subcode
         return []

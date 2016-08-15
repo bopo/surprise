@@ -11,6 +11,8 @@ except ImportError, e:
 DEBUG = True
 
 INSTALLED_APPS += (
+    # 'rest_framework_swagger',
+    "sslserver",
     # 'cachalot',
     # 'django_q',
     # 'django_baker',

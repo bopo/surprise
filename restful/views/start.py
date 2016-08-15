@@ -2,20 +2,19 @@
 from __future__ import unicode_literals
 
 import random
-from datetime import timedelta
 
 from django.conf import settings
 from django.db.models import Q
-from django.utils.timezone import now
 from drf_multiple_model.mixins import Query, MultipleModelMixin
 from rest_framework import status, viewsets
 from rest_framework.exceptions import ValidationError
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet, mixins
 
 from restful.contrib.consumer.models import UserProfile
 from restful.contrib.consumer.serializers import BestsProfileSerializer
-from restful.models.affairs import Holiday
+from restful.lottery import get_exchange
 from restful.models.banner import Banner
 from restful.models.bootstrap import Version
 from restful.models.goods import Goods
@@ -30,39 +29,6 @@ from restful.serializers.keyword import KeywordSerializer
 from restful.serializers.prompt import PromptSerializer
 from restful.serializers.start import FirstSerializer
 from restful.serializers.total import TotalSerializer, TrendSerializer
-
-
-def get_exchange():
-    # instance = Prompt.objects.first()
-    # switch__ = instance.switchs if instance else False
-    holiday = Holiday.objects.filter(year=now().year)
-
-    total = 1
-
-    # if switch__:
-    #     total = Trade.objects.filter(owner=user, created__exact=now()).count()
-    #     total = int(total) + 1
-
-    while True:
-        if not holiday:
-            break
-
-        forward = now().date() + timedelta(days=+total)
-
-        if str(forward) not in holiday.get().date.split(','):
-            break
-
-        total -= 1
-
-    # 周六日休市
-    weeks = now().isoweekday()
-    print weeks
-    # total += weeks - 5 if weeks > 5 else 0
-    total = weeks - 5 if weeks > 5 else total
-
-    date = now().date() + timedelta(days=-total)
-    print date
-    return date
 
 
 class MultipleModelViewSet(MultipleModelMixin, mixins.ListModelMixin, GenericViewSet):
@@ -303,37 +269,67 @@ class FirstViewSet(viewsets.GenericViewSet):
     }
 
     - 手机屏幕尺寸如下:
+
     ('320x480', "iPhone 4/4S"),
     ('320x568', "iPhone 5/5S/5C"),
     ('375x667', "iPhone 6/6S"),
     ('414x736', "iPhone 6/6S Plus"),
+
     '''
     queryset = First.objects.all()
     serializer_class = FirstSerializer
-    # permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
     allowed_methods = ('POST', 'OPTIONS', 'HEAD')
 
     def create(self, request, *args, **kwargs):
-        # total = self.get_queryset().filter(owner=request.user).count()
-        #
-        # if total >= 1:
-        #     raise ValidationError('该用户已经领过奖品')
+        total = self.get_queryset().filter(owner=request.user).count()
+        goods = None
+
+        open_iid = None
+
+        if total >= 1:
+            raise ValidationError('该用户已经领过奖品')
 
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
+
         self.perform_create(serializer)
 
-        prize = FirstPrize.objects.filter(
-            Q(platform=request.data['platform']) & Q(screensize=request.data['screensize']))
+        # ios 平台判断屏幕尺寸
+        if request.data['platform'] == 'ios':
+            prize = FirstPrize.objects.filter(
+                Q(platform=request.data['platform']) & Q(screensize=request.data['screensize']))[0]
 
-        if prize:
-            goods = prize.first().prizegoods
-            # serializer = FirstGoodsSerializer(instance=goods, context={'request': request})
+            if prize:
+                open_iid = prize.prizegoods
+
+        # 安卓平台判断手机品牌+型号
+        if request.data['platform'] == 'android':
+            prize = FirstPrize.objects.filter(
+                Q(platform=request.data['platform']) &
+                Q(phonemodel=request.data['phonemodel'] &
+                Q(phonebrand=request.data['phonebrand'])))[0]
+
+            if prize:
+                open_iid = prize.prizegoods
+
+        # 没有匹配则找其他赠送商品
+        if not open_iid:
+            prize = FirstPrize.objects.order_by('?')[0]
+
+            if prize:
+                open_iid = prize.prizegoods
+
+        # 判断是否找到赠品
+        if open_iid:
+            goods = Goods.objects.filter(open_iid=open_iid)[0]
+
+        # 判断是否找到赠品
+        if goods:
             serializer = BestsGoodsSerializer(instance=goods, context={'request': request})
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response(serializer.data, status=status.HTTP_200_OK)
         else:
-            raise ValidationError('该屏幕尺寸没有对应奖品')
+            raise ValidationError('没有找到对应商品')
 
     def perform_create(self, serializer):
-        # serializer.save(owner=self.request.user)
-        return serializer.save()
+        return serializer.save(owner=self.request.user)
