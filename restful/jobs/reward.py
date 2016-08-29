@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-from colorama import Fore
 from django.db.models import Q
 from django_extensions.management.jobs import BaseJob
+from fabric.colors import red, green, blue, yellow
 from jinja2 import Template
 from model_utils.models import now
 
@@ -13,17 +13,20 @@ from ..models.trade import Trade
 
 def reward(today):
     if not has_exchange(today):
-        print Fore.RED + '[!!]', '今天是休息日,不能开奖'
-        return False, 'has_exchange'
+        print red('[!!]', '今天是休息日,不能开奖')
+        return False
 
     # 获取今天的股票大盘
     value = Trend.objects.filter(exchange=today)
     total = 0
+
     result = []
 
     if value:
         # 选择开奖日期是今天的订单
-        orders = Trade.objects.filter(Q(exchange=today) & Q(rebate__isnull=True))
+        orders = Trade.objects.filter(Q(exchange=today) & Q(rebate__isnull=True) & Q(confirmed__isnull=False) & (
+        Q(order_status='2') | Q(order_status='6')))
+
         number = value.get().number
 
         if orders:
@@ -33,21 +36,21 @@ def reward(today):
                     x.reward = 1
                     x.rebate = '1.0'
                     x.save()
-                    print Fore.BLUE + '[√]' + x.owner.username, x.number, 1
+                    print blue('[√]' + x.owner.username), x.number, 1
                 # '两位相等'
                 elif str(x.number)[:2] == str(number)[:2]:
                     x.reward = 1
                     x.rebate = '0.5'
                     x.save()
-                    print Fore.BLUE + '[√]' + x.owner.username, x.number, 0.5
+                    print blue('[√]' + x.owner.username), x.number, 0.5
                 # 一位相等
                 elif str(x.number)[:1] == str(number)[:1]:
                     x.reward = 1
                     x.rebate = '0.1'
                     x.save()
-                    print Fore.BLUE + '[√]' + x.owner.username, x.number, 0.1
+                    print blue('[√]' + x.owner.username), x.number, 0.1
                 else:
-                    print Fore.YELLOW + '[-]' + x.title + '   没有中奖'
+                    print yellow('[-]' + x.title + '   没有中奖')
 
                 if x.reward == 1:
                     # 推送中奖消息
@@ -62,9 +65,9 @@ def reward(today):
         else:
             print '没有订单'
 
-        print Fore.GREEN + '[√] 今天的中奖人数 %s' % total
+        print green('[√] 今天的中奖人数 %s' % total)
     else:
-        print Fore.RED + '[!!]', '现在还没有股票数据'
+        print red('[!!]', '现在还没有股票数据')
 
     return result
 

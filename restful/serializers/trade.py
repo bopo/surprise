@@ -10,7 +10,8 @@ from restful.models.trade import Trade
 class TradeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Trade
-        fields = ('number', 'orderid', 'title', 'open_iid', 'nums', 'price', 'reward', 'exchange', 'pic_url', 'rebate')
+        fields = ('number', 'orderid', 'title', 'open_iid', 'nums', 'price', 'reward', 'exchange', 'pic_url', 'rebate',
+        'confirmed')
 
 
 class RandomSerializer(serializers.Serializer):

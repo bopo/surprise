@@ -137,6 +137,8 @@ class Goods(StatusModel, TimeStampedModel):
 
     category = models.ForeignKey(GoodsCategory, verbose_name=_(u'商品分类'), null=True)
     recommend = models.BooleanField(verbose_name=_(u'是否推荐'), default=False)
+    besting = models.BooleanField(verbose_name=_(u'是否"惊"推荐'), default=False)
+
     gender = models.CharField(verbose_name=_(u'性别'), max_length=20, choices=GENDER_CHOICES, default='female')
     delist_time = models.DateTimeField(verbose_name=_(u'下架时间'), blank=True, null=True)
     # description = models.OneToOneField(Description, blank=True, null=True, verbose_name=_(u'详细信息'))

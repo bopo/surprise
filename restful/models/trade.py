@@ -8,6 +8,7 @@ from django.dispatch import receiver
 from django.utils.translation import ugettext_lazy as _
 from model_utils.models import TimeStampedModel
 
+from config.settings.apps import ORDER_STATUS
 from restful.models.affairs import Affairs
 
 
@@ -27,10 +28,27 @@ class Trade(TimeStampedModel):
     exchange = models.DateField(verbose_name=_(u'兑奖时间'), blank=True, null=True)
     rebate = models.FloatField(verbose_name=_(u'回扣率'), blank=True, null=True,
         help_text=_(u'选填项,区分是随机数,还是折扣商品, 数值为折扣的比例,例如: 0.9 代表九折, 空则为随机数商品'))
+    confirmed = models.DateTimeField(_(u'淘宝订单确认时间'), blank=True, null=True, default=None)
+    order_status = models.CharField(_('淘宝订单状态'), max_length=10, blank=True, null=True, choices=ORDER_STATUS)
+    extra = models.CharField(_('淘宝订单额外消息'), max_length=100, blank=True, null=True, default='')
 
     class Meta:
         verbose_name = _(u'交易记录')
         verbose_name_plural = _(u'交易记录')
+
+    def __unicode__(self):
+        return self.orderid
+
+    def __str__(self):
+        return self.__unicode__()
+
+
+class TMC(TimeStampedModel):
+    orderid = models.CharField(verbose_name=_(u'淘宝订单'), max_length=200, default='', unique=True)
+
+    class Meta:
+        verbose_name = _(u'淘宝订单确认记录')
+        verbose_name_plural = _(u'淘宝订单确认记录')
 
     def __unicode__(self):
         return self.orderid
@@ -59,7 +77,7 @@ class Orders(TimeStampedModel):
 
 
 @receiver(signals.post_save, sender=Trade)
-def sync_trade(instance, created, **kwargs):
+def post_trade(instance, created, **kwargs):
     # 新建时候操作
     if created:
         print 'created'
@@ -67,18 +85,21 @@ def sync_trade(instance, created, **kwargs):
             print "standard trade."
         else:
             print "discount trade."
-            payment = round(float(instance.price) * float(instance.rebate), 2)
-            status_ = Affairs.objects.create(owner=instance.owner, payment=payment, pay_type='in',
-                orderid=instance.orderid)
-
-            if status_:
-                instance.reward = 2
-                instance.save()
+            # payment = round(float(instance.price) * float(instance.rebate), 2)
+            # affairs = Affairs.objects.create(owner=instance.owner, payment=payment, pay_type='in',
+            #     orderid=instance.orderid)
+            #
+            # if affairs:
+            instance.reward = 2
+            instance.save()
 
     # 更新时候操作
     else:
         print 'not created'
-        if instance.reward == 1 and instance.rebate is not None:
+        if instance.reward >= 1 \
+                and instance.rebate is not None \
+                and instance.confirmed is not None:
+
             print "reward trade."
             # 判断是否重复的订单
             payment = round(float(instance.price) * float(instance.rebate), 2)

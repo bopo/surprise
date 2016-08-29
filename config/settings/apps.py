@@ -38,3 +38,27 @@ FIRST_RATE = 0.5
 
 DOWNLOAD_ANDROID = 'https://www.pgyer.com/wzTi'
 DOWNLOAD_IOS = 'https://itunes.apple.com/cn/app/gou-jing-xi/id1089420214?mt=8'
+
+
+# 1、taobao_tae_BaichuanTradeCreated
+# 创建订单消息(下单未付款)，订单状态(order_status)是7
+# 2、taobao_tae_BaichuanTradeSuccess
+# 交易成功消息(确认收货后)，订单状态(order_status)是6
+    # 3、taobao_tae_BaichuanTradeRefundCreated
+# 买家点击退款按钮后促发
+# 4、taobao_tae_BaichuanTradeRefundSuccess
+# 退款成功，没有订单状态
+        # 5、taobao_tae_BaichuanTradePaidDone
+        # 付款成功(下单已付款)，订单状态(order_status)是2
+# 6、taobao_tae_BaichuanTradeClosed
+# 交易关闭(包括退款后交易关闭和创建订单后交易关闭)，
+# order_status为4是退款后交易关闭，
+# order_status为8是创建订单后交易关闭
+
+ORDER_STATUS = (
+    ('2', '付款成功'),
+    ('7', '下单未付款'),
+    ('6', '确认收货后'),
+    ('4', '退款后交易关闭'),
+    ('8', '创建订单后交易关闭'),
+)

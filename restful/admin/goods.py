@@ -36,10 +36,11 @@ class GoodsAdmin(VersionAdmin, ImportExportModelAdmin):
     rate.short_description = u'比率'
     commission_price.short_description = u'返利'
 
-    list_display = ('preview', 'title', 'price', 'rate', 'commission_price', 'recommend', 'category_recommend')
+    list_display = (
+    'preview', 'title', 'price', 'rate', 'commission_price', 'recommend', 'category_recommend', 'besting')
     list_filter = ('created', 'modified', 'status_changed', 'recommend', 'category', 'category_recommend')
     readonly_fields = ('status_changed', 'created', 'open_iid')
-    list_editable = ('category_recommend', 'recommend')
+    list_editable = ('category_recommend', 'recommend', 'besting')
     list_display_links = ('title', 'preview')
     search_fields = ('title',)
 

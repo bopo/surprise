@@ -167,7 +167,7 @@ class BestsViewSet(MultipleModelViewSet):
         object_ids = [random.randint(0, 200) for _ in range(30)]
 
         queryList = (
-            (Goods.objects.filter(recommend=1)[:90], BestsGoodsSerializer, 'goods'),
+            (Goods.objects.filter(besting=1)[:90], BestsGoodsSerializer, 'goods'),
             (UserProfile.objects.exclude(avatar__isnull=True).filter(pk__in=object_ids)[:30], BestsProfileSerializer,
             'users'),
         )
@@ -296,22 +296,23 @@ class FirstViewSet(viewsets.GenericViewSet):
         self.perform_create(serializer)
 
         # ios 平台判断屏幕尺寸
-        if request.data['platform'] == 'ios':
+        if request.data.get('platform') == 'ios' and request.data.get('screensize'):
             prize = FirstPrize.objects.filter(
-                Q(platform=request.data['platform']) & Q(screensize=request.data['screensize']))[0]
+                Q(platform=request.data['platform']) & Q(screensize=request.data['screensize']))
 
             if prize:
-                open_iid = prize.prizegoods
+                open_iid = prize.get().prizegoods
 
         # 安卓平台判断手机品牌+型号
         if request.data['platform'] == 'android':
-            prize = FirstPrize.objects.filter(
-                Q(platform=request.data['platform']) &
-                Q(phonemodel=request.data['phonemodel'] &
-                Q(phonebrand=request.data['phonebrand'])))[0]
+            if request.data.get('phonemodel') and request.data.get('phonebrand'):
+                prize = FirstPrize.objects.filter(
+                    Q(platform=request.data['platform']) &
+                    Q(phonemodel=request.data['phonemodel']) &
+                    Q(phonebrand=request.data['phonebrand']))
 
-            if prize:
-                open_iid = prize.prizegoods
+                if prize:
+                    open_iid = prize.get().prizegoods
 
         # 没有匹配则找其他赠送商品
         if not open_iid:

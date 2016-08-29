@@ -126,3 +126,46 @@ def convert(num_iids, _detail=False):
         traceback.print_exc()
         print 'covert', e.message, e.errorcode, e.subcode
         return []
+
+
+class TMCMessage:
+    def confirm(self, send_message, from_message, group_name=None):
+        req = top.api.TmcMessagesConfirmRequest()
+        req.set_app_info(top.appinfo(APPKEY, SECRET))
+
+        req.s_message_ids = send_message
+        req.f_message_ids = from_message
+
+        if group_name:
+            req.group_name = group_name
+
+        try:
+            resp = req.getResponse()
+            print(resp)
+        except TopException, e:
+            print(e)
+
+    def consume(self, quantity=100, group_name=None):
+        req = top.api.TmcMessagesConsumeRequest()
+        req.set_app_info(top.appinfo(APPKEY, SECRET))
+
+        req.quantity = quantity
+
+        if group_name:
+            req.group_name = group_name
+
+        try:
+            resp = req.getResponse()
+            print(resp)
+        except TopException, e:
+            print(e)
+
+    def process(self):
+        items = self.consume(quantity=100)
+
+        if items:
+            for x in items:
+                pass
+
+        # self.confirm(send_message, from_message, group_name=None)
+        pass

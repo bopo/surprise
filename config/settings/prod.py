@@ -53,6 +53,11 @@ DATABASES = {
 # }
 
 # INSTALLED_APPS += ('cachalot',)
+# MIDDLEWARE_CLASSES += (
+#     'sslify.middleware.SSLifyMiddleware',
+# )
+# SECURE_SSL_REDIRECT = True
+# SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
-# CACHE_BACKEND = 'redis_cache.cache://127.0.0.1:6379'
+

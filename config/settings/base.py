@@ -66,6 +66,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'restful.middleware.DisableCSRFCheck',
+    # 'sslify.middleware.SSLifyMiddleware',
     # 'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
 )
 
