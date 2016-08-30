@@ -24,52 +24,32 @@ class Job(BaseJob):
 
         try:
             resp = req.getResponse()
-            # 模拟数据
-            # fp = open('tmc.json').read()
-            # resp = json.loads(fp)
             tmcs = resp['tmc_messages_consume_response']['messages']
-            # ---------------------------------
-            fp = open('runtime/tmc/' + resp['tmc_messages_consume_response']['request_id'] + '.json', 'w')
-            fp.write(json.dumps(resp))
-            fp.close()
-            # ---------------------------------
 
-            # ---------------------------------
             if tmcs:
-                # print tmcs['tmc_message']
-                orderids = []
-                mesgsids = []
 
                 for tmc in tmcs['tmc_message']:
                     content = json.loads(tmc['content'])
                     orderid = content['order_id']
-                    order_status = content['order_status']
-                    orderids.append(orderid)
+                    mesgsid = str(tmc['id'])
+
+                    status = content['order_status']
                     extra = content.get('extre')
 
-                    mesgsids.append(str(tmc['id']))
-                    print json.dumps(json.loads(tmc['content']))
-
-                if len(orderids):
-                    _ = Trade.objects.filter(orderid__in=orderids, confirmed__isnull=True).update(
+                    ret = Trade.objects.filter(orderid=orderid).update(
+                        order_status=status,
                         confirmed=now(),
-                        order_status=order_status,
                         extra=extra
                     )
 
-                    print mesgsids, _
-                    # 确认接口
-                    self.confirmed(mesgsids)
+                    print mesgsid, ret
 
-                    # print resp
+                    self.confirmed(mesgsid)
 
-                    # 查询订单是否存在
-                    # 更新订单确认
-                    # 记录该次记录
         except TopException, e:
             print(e)
 
-    def confirmed(self, mesgsids):
+    def confirmed(self, mesgsid):
         '''
         {
             "tmc_messages_confirm_response":{
@@ -78,12 +58,12 @@ class Job(BaseJob):
         }
         '''
 
-        # print ",".join(mesgsids)
-        # return ",".join(mesgsids)
+        if not mesgsid:
+            return None
 
         req = top.api.TmcMessagesConfirmRequest()
         req.set_app_info(top.appinfo(APPKEY, SECRET))
-        req.s_message_ids = ",".join(mesgsids)
+        req.s_message_ids = ",".join(mesgsid)
 
         try:
             resp = req.getResponse()

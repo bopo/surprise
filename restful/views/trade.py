@@ -13,10 +13,14 @@ from restful.serializers.trade import TradeSerializer
 
 
 def get_picurl(open_iid):
-    result = Goods.objects.get(open_iid=open_iid)
+    if not open_iid:
+        return None
 
-    if result:
-        return result.pic_url
+    try:
+        result = Goods.objects.filter(open_iid=open_iid)
+        return result.get().pic_url
+    except Goods.DoesNotExist:
+        pass
 
     # @API获取数据
     result = DetailGet(open_iid)
