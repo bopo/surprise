@@ -5,3 +5,4 @@ django-baker
 django-seed
 ipython
 fabric
+django-sslserver

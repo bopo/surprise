@@ -3,12 +3,13 @@ import json
 import time
 import traceback
 
-import top
-import top.api
 from django.conf import settings
 from django.core.paginator import Paginator
 
+import top
+import top.api
 from restful.models.goods import Goods
+from top.api.base import TopException
 
 APPKEY = settings.TOP_APPKEY  # '23255563'
 SECRET = settings.TOP_SECRET  # 'f7092fdb96f20625742d577820936b5c'
@@ -19,7 +20,7 @@ def get_items(item):
     req = top.api.AtbItemsGetRequest()
     req.set_app_info(top.appinfo(APPKEY, SECRET))
     req.cid = item['cid']
-    req.keyword = item['title']
+    req.keyword = item['title'].encode('utf-8')
     req.fields = "num_iid,open_iid,title,nick,pic_url,price,commission,commission_rate," \
                  "commission_num,commission_volume,seller_credit_score,item_location,volume,promotion_price"
 
@@ -31,19 +32,20 @@ def get_items(item):
         if nums > 0:
             for result in resp.get('atb_items_get_response').get('items').get('aitaobao_item'):
                 if result['open_iid'] == item['open_iid']:
-                    # print u'[√] found goods...done!'
-                    print u'√'
+                    print u'[√] found goods...done!'
 
                     item.update(result)
         else:
-            print u'x'
+            print u'[x]'
             item['bad'] = True
 
-    except Exception, e:
+    except TopException, e:
         print u'x'
         print 'items', e
-        # if page <= 10:
-        #     return get_items(item, page + 1)
+        if e.errorcode == 48:
+            time.sleep(120)
+            # if page <= 10:
+            #     return get_items(item, page + 1)
 
     return item
 
@@ -79,7 +81,7 @@ def get_detail(items):
         # print rows
         return rows
 
-    except Exception, e:
+    except TopException, e:
 
         for k, v in enumerate(items):
             items[k]['bad'] = True
@@ -120,7 +122,50 @@ def convert(num_iids, _detail=False):
 
             items = []
         return rows
-    except Exception, e:
+    except TopException, e:
         traceback.print_exc()
-        print 'covert', e.message
+        print 'covert', e.message, e.errorcode, e.subcode
         return []
+
+
+class TMCMessage:
+    def confirm(self, send_message, from_message, group_name=None):
+        req = top.api.TmcMessagesConfirmRequest()
+        req.set_app_info(top.appinfo(APPKEY, SECRET))
+
+        req.s_message_ids = send_message
+        req.f_message_ids = from_message
+
+        if group_name:
+            req.group_name = group_name
+
+        try:
+            resp = req.getResponse()
+            print(resp)
+        except TopException, e:
+            print(e)
+
+    def consume(self, quantity=100, group_name=None):
+        req = top.api.TmcMessagesConsumeRequest()
+        req.set_app_info(top.appinfo(APPKEY, SECRET))
+
+        req.quantity = quantity
+
+        if group_name:
+            req.group_name = group_name
+
+        try:
+            resp = req.getResponse()
+            print(resp)
+        except TopException, e:
+            print(e)
+
+    def process(self):
+        items = self.consume(quantity=100)
+
+        if items:
+            for x in items:
+                pass
+
+        # self.confirm(send_message, from_message, group_name=None)
+        pass

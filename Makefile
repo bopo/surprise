@@ -24,6 +24,11 @@ help:
 	@echo "install - install the package to the active Python's site-packages"
 
 clean: clean-build clean-others clean-pyc clean-test clean-runtime
+distclean: clean-build clean-others clean-pyc clean-test clean-runtime clean-database
+
+clean-database:
+	rm -fr database/backups/*
+	rm -fr database/fixtrues/*
 
 clean-build:
 	rm -fr build/
@@ -50,7 +55,7 @@ clean-test:
 	rm -rf htmlcov/
 
 clean-runtime:
-	rm -fr .runtime/*/*
+	rm -fr .runtime/**/**
 
 lint:
 	flake8 restful

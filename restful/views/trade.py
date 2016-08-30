@@ -1,23 +1,26 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-import jpush
 from rest_framework import mixins
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import GenericViewSet
 
-from restful.helpers import DetailGet, pushMessage
+from restful.helpers import DetailGet
+from restful.lottery import set_exchange
 from restful.models.goods import Goods
 from restful.models.trade import Trade
 from restful.serializers.trade import TradeSerializer
-from restful.views.recommend import get_exchange
 
 
 def get_picurl(open_iid):
-    result = Goods.objects.filter(open_iid=open_iid).first()
+    if not open_iid:
+        return None
 
-    if result:
-        return result.pic_url
+    try:
+        result = Goods.objects.filter(open_iid=open_iid)
+        return result.get().pic_url
+    except Goods.DoesNotExist:
+        pass
 
     # @API获取数据
     result = DetailGet(open_iid)
@@ -40,6 +43,4 @@ class TradeViewSet(mixins.CreateModelMixin, GenericViewSet):
     def perform_create(self, serializer):
         # @todo 获取商品信息, 更新交易表
         pic_url = get_picurl(self.request.data['open_iid'])
-        serializer.save(owner=self.request.user, pic_url=pic_url, exchange=get_exchange(self.request.user))
-
-        # pushMessage()
+        serializer.save(owner=self.request.user, pic_url=pic_url, exchange=set_exchange(self.request.user))

@@ -1,10 +1,14 @@
 # -*- coding: utf-8 -*-
+import json
+import re
+import traceback
 
 import jpush as jpush
 import top
-
 from django.conf import settings
 from jinja2 import Template
+
+from restful.models.goods import Collect
 
 APPKEY = settings.TOP_APPKEY
 SECRET = settings.TOP_SECRET
@@ -166,3 +170,58 @@ def DetailGet(open_iids, *args, **kwargs):
     except Exception, e:
         print(e)
         return None
+
+
+def import2db(data):
+    fields = ('commission', 'from_name', 'sid', 'title', 'nick', 'cid', 'num',)
+
+    try:
+        collect, _status = Collect.objects.get_or_create(num_iid=data['num_iid'])
+
+        if _status or not collect.category_id:
+            v = data
+
+            for field in fields:
+                if v.get(field):
+                    setattr(collect, field, v.get(field))
+                else:
+                    print 'no %s.' % field
+
+            if v.get('coupon_price', None):
+                collect.promotion_price = v.get('coupon_price')
+            else:
+                print 'no yh_price'
+
+            if re.findall(r'\d+\.\d{2}', v['price']):
+                collect.price = re.findall(r'\d+\.\d{2}', v['price'])[0]
+            else:
+                print 'no price'
+
+            if v.get('picurl'):
+                collect.pic_url = v.get('picurl')
+            else:
+                print 'no picurl'
+
+            if v.get('shop_type'):
+                collect.shop_type = 'B' if str(v.get('shop_type')) == '1' else 'C'
+            else:
+                print 'no shop_type'
+
+            if v.get('category_id'):
+                collect.category_id = v.get('category_id')
+            else:
+                print 'no category_id'
+
+            if v.get('images', None):
+                collect.item_img = json.dumps(v.get('images'))
+            else:
+                print 'no images'
+
+            collect.save()
+            print '[√] ', v['category'], v['title'], 'Saved'
+            return True
+        else:
+            print '[!!]', data['category'], data['title'], 'Already exist.'
+            return False
+    except Exception:
+        traceback.print_exc()

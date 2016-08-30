@@ -20,29 +20,36 @@ env.roledefs = {
 
 env.fixtures = (
     'flatpages',
-        # 'restful.tbkcategory',
     'restful.goodscategory',
+    'restful.preselectioncategory',
     'restful.total',
     'restful.goods',
+    'restful.collect',
     'restful.prompt',
     'restful.banner',
     'restful.holiday',
     'restful.queryrule',
     'consumer.customuser',
-    # 'restful.description',
 )
 
 env.excludes = (
     "*.pyc", "*.db", ".DS_Store", ".coverage", ".git", ".hg", ".tox", ".idea/",
-    'assets/', 'database/backups', 'database/fixtures/')
+    'assets/', 'database/backups', 'database/fixtures/', 'runtime/', 'node_modules', 'top')
 
 env.remote_dir = '/home/apps/surprise'
 env.local_dir = '.'
 env.database = 'surprise'
 
 
-# createuser surprise -P
-# dropdb surprise; createdb surprise -O surprise -E UTF8 -e
+@task
+def cert():
+    local('mkdir private')
+    local('mkdir server')
+    local('mkdir client')
+    local('openssl genrsa -out private/ca-key.pem 1024')
+    local('openssl req -new -subj $SUBJECT -out private/ca-req.csr -key private/ca-key.pem')
+    local('openssl x509 -req -in private/ca-req.csr -out private/ca-cert.pem -signkey private/ca-key.pem -days 3650')
+    local('openssl pkcs12 -export -clcerts -in private/ca-cert.pem -inkey private/ca-key.pem -out private/ca.p12')
 
 
 @task
@@ -233,7 +240,8 @@ def restdb():
     local('dropdb {database}'.format(database=env.database))
     local('createdb {database} -O {database} -E UTF8 -e'.format(database=env.database))
     local('python manage.py migrate --noinput')
-    local('python manage.py loaddata database/fixtures/*.json')
+    # local('python manage.py loaddata database/fixtures/*.json')
+    loaddata()
 
 
 @task
@@ -276,6 +284,28 @@ def syncdb(action='down'):
     #         run('python manage.py loaddata database/fixtures/*.json')
     # else:
     # restdb()
+
+
+@task
+def dbmigrate():
+    # backup data
+    run('manage.py dumpdata --format=json > db.json')
+
+    # rsync files.
+    local('rsync -ave ssh rsync -ave ssh root@101.200.136.70:/home/apps/surprise /home/apps')
+
+    # stop service
+    local('/usr/bin/supervisorctl stop surprise')
+
+    # migrate db
+    local('dropdb {database}'.format(database=env.database))
+    local('createdb {database} -O {database} -E UTF8 -e'.format(database=env.database))
+
+    local('python manage.py migrate --noinput')
+    local('python manage.py loaddata db.json')
+
+    # start service
+    local('/usr/bin/supervisorctl start surprise')
 
 
 @task

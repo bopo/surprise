@@ -6,7 +6,6 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
 from restful.models.bootstrap import PLATFORM_CHOICES
-from restful.models.goods import Goods
 
 
 class Reward(models.Model):
@@ -27,9 +26,11 @@ class Reward(models.Model):
 class First(models.Model):
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_(u'所属用户'), blank=True, null=True)
     platform = models.CharField(verbose_name=_(u'APP平台'), max_length=50, default='android', choices=PLATFORM_CHOICES)
-    location = models.CharField(verbose_name=_(u'地址信息'), max_length=200, blank=False)
-    coordinate = models.CharField(verbose_name=_(u'位置坐标'), max_length=200, blank=False)
-    screensize = models.CharField(verbose_name=_(u'屏幕尺寸'), max_length=200, blank=False)
+    location = models.CharField(verbose_name=_(u'地址信息'), max_length=200, blank=True)
+    coordinate = models.CharField(verbose_name=_(u'位置坐标'), max_length=200, blank=True)
+    screensize = models.CharField(verbose_name=_(u'屏幕尺寸'), max_length=200, blank=True)
+    phonebrand = models.CharField(verbose_name=_(u'手机品牌'), max_length=100, blank=True, null=True)
+    phonemodel = models.CharField(verbose_name=_(u'手机型号'), max_length=100, blank=True, null=True)
 
     class Meta:
         verbose_name = _(u'首登奖励')
@@ -55,8 +56,9 @@ class FirstPrize(models.Model):
     location = models.CharField(verbose_name=_(u'地址信息'), max_length=200, blank=True, null=True)
     coordinate = models.CharField(verbose_name=_(u'位置坐标'), max_length=200, blank=True, null=True)
     screensize = models.CharField(verbose_name=_(u'屏幕尺寸'), max_length=200, blank=False, choices=SCREENSIZE_CHOICES)
-    prizegoods = models.ForeignKey(Goods, verbose_name=_(u'对应奖品'), blank=True, null=True)
+    prizegoods = models.CharField(verbose_name=_(u'对应奖品ID'), max_length=100, blank=True, null=True)
     phonemodel = models.CharField(verbose_name=_(u'手机型号'), max_length=100, blank=True, null=True)
+    phonebrand = models.CharField(verbose_name=_(u'手机品牌'), max_length=100, blank=True, null=True)
 
     class Meta:
         verbose_name = _(u'首登奖品')

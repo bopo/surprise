@@ -137,6 +137,8 @@ class Goods(StatusModel, TimeStampedModel):
 
     category = models.ForeignKey(GoodsCategory, verbose_name=_(u'商品分类'), null=True)
     recommend = models.BooleanField(verbose_name=_(u'是否推荐'), default=False)
+    besting = models.BooleanField(verbose_name=_(u'是否"惊"推荐'), default=False)
+
     gender = models.CharField(verbose_name=_(u'性别'), max_length=20, choices=GENDER_CHOICES, default='female')
     delist_time = models.DateTimeField(verbose_name=_(u'下架时间'), blank=True, null=True)
     # description = models.OneToOneField(Description, blank=True, null=True, verbose_name=_(u'详细信息'))
@@ -393,6 +395,37 @@ class QueryRule(models.Model):
         verbose_name = _(u'搜索规则')
 
 
+class PreselectionCategory(MPTTModel):
+    PRESELECTION_CHOICES = (
+        ('nanyibang', u'男衣邦'),
+        ('liwushuo', u'礼物说'),
+    )
+    name = models.CharField(verbose_name=_(u'分类名称'), max_length=64, null=False)
+    parent = TreeForeignKey('self', null=True, blank=True, related_name='children')
+    source = models.CharField(_(u'采集点'), max_length=100, default=None, blank=True, choices=PRESELECTION_CHOICES)
+    category = models.ForeignKey(GoodsCategory, verbose_name=_(u'商品分类'), null=True)
+    ordering = models.IntegerField(verbose_name=_(u'排序'), default=999)
+    subcategory_id = models.IntegerField(verbose_name=_(u'采集分类'), default=0)
+    is_active = models.BooleanField(default=True)
+
+    def __unicode__(self):
+        return self.name
+
+    def __str__(self):
+        return self.__unicode__()
+
+    class Meta:
+        verbose_name = _(u'采集类别关联')
+        verbose_name_plural = _(u'采集类别关联')
+
+    class MPTTMeta:
+        order_insertion_by = ['ordering']
+
+    def save(self, *args, **kwargs):
+        super(PreselectionCategory, self).save(*args, **kwargs)
+        PreselectionCategory.objects.rebuild()
+
+
 class Preselection(StatusModel, TimeStampedModel):
     STATUS = Choices('draft', 'published')
     source = models.CharField(_(u'采集点'), max_length=100, default=None, blank=True, null=True)
@@ -461,7 +494,7 @@ class Collect(Goods):
       "num_iid" : "530835666525",
       "commission" : ""
    }'''
-    STATUS = Choices('draft', 'published')
+    STATUS = Choices('ready', 'error', 'done')
     # category = models.ForeignKey(GoodsCategory, verbose_name=_(u'商品分类'), null=True)
 
     from_name = models.CharField(verbose_name=_(u'标题'), max_length=255, blank=True, null=True)

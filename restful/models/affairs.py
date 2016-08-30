@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+import jpush
 from django.conf import settings
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
@@ -19,7 +20,7 @@ class Affairs(StatusModel):
     PAY_TYPE = Choices(('in', u'收入'), ('out', u'支出'))
 
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_(u'用户'))
-    # payment = models.FloatField(verbose_name=_(u'发生额'), default=0.00)
+    orderid = models.CharField(verbose_name=_(u'淘宝订单'), max_length=100, default='', unique=True)
     payment = models.DecimalField(verbose_name=_(u'发生额'), default=0.00, max_digits=10, decimal_places=2)
     created = models.DateTimeField(verbose_name=_(u'发生时间'), auto_now_add=True)
     modified = models.DateTimeField(verbose_name=_(u'操作时间'), blank=True, auto_now=True)
@@ -37,27 +38,65 @@ class Affairs(StatusModel):
         return self.__unicode__()
 
 
+class NoticeTemplate(models.Model):
+    CATEGORY_CHOICES = (
+        ('reward', "中奖消息"),
+        ('signup', "注册消息"),
+        ('system', "系统消息"),
+        ('payment', "支付消息"),
+    )
+
+    category = models.CharField(verbose_name=_(u'消息模板分类'), max_length=255, default='', choices=CATEGORY_CHOICES)
+    subject = models.CharField(verbose_name=_(u'消息模板标题'), max_length=255, default='')
+    content = models.TextField(verbose_name=_(u'消息模板正文'), default='')
+
+    def __unicode__(self):
+        return self.subject
+
+    def __str__(self):
+        return self.__unicode__()
+
+    class Meta:
+        verbose_name = _(u'消息模板')
+        verbose_name_plural = _(u'消息模板')
+
+
 class Notice(TimeStampedModel):
     '''
     用户消息
     '''
-    owner = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True,verbose_name=_(u'推送给用户'))
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, verbose_name=_(u'推送给用户'))
     is_top = models.BooleanField(verbose_name=_(u'消息置顶'), default=False)
     registration = models.BooleanField(verbose_name=_(u'注册成功推送的消息'), default=False,
         help_text=_(u'注册成功后发送的消息,只能有一条. 用户设置为空, 必须为置顶'))
     title = models.CharField(verbose_name=_(u'消息标题'), max_length=255, default='')
     content = models.TextField(verbose_name=_(u'消息正文'), default='')
 
-    class Meta:
-        ordering = ('pk',)
-        verbose_name = _(u'用户消息')
-        verbose_name_plural = _(u'用户消息')
+    def push(self, *args, **kwargs):
+        msgs = self.title
+        push = jpush.JPush(settings.JPUSH_APPKEY, settings.JPUSH_SECRET)
+        push = push.create_push()
+
+        extras = {'mobile': self.owner.mobile}
+        push.notification = jpush.notification(alert=msgs)
+        push.options = {"time_to_live": 86400, "apns_production": True, 'extras': extras}
+        push.audience = jpush.audience(
+            jpush.registration_id(self.owner.registration_id)) if self.owner.registration_id else jpush.all_
+        push.platform = jpush.all_
+        push.send()
+
+        return True
 
     def __unicode__(self):
         return '%s: %s' % (self.owner, self.title)
 
     def __str__(self):
         return self.__unicode__()
+
+    class Meta:
+        ordering = ('pk',)
+        verbose_name = _(u'用户消息')
+        verbose_name_plural = _(u'用户消息')
 
 
 class Event(models.Model):

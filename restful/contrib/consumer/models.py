@@ -98,6 +98,7 @@ class CustomUser(AbstractUser):
     device = models.CharField(_(u'设备号'), max_length=100, blank=False, null=False)
     slug = models.UUIDField(_(u'slug'), null=True, blank=True, auto_created=True)
     jpush_registration_id = models.CharField(_(u'jpush_registration_id'), max_length=200, blank=True, null=True)
+
     # birthday = models.DateField(_(u'生日'), blank=True, null=True)
     # zodiac_zh = models.CharField(_(u'生肖'), max_length=25, blank=True)
     # avatar = models.ImageField(_(u'头像'), max_length=200, blank=True)

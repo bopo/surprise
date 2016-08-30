@@ -124,12 +124,12 @@ class TradeViewSet(viewsets.ReadOnlyModelViewSet):
 
     字段待定...
     '''
-    queryset = Trade.objects.all()
+    # queryset = Trade.objects.all()
     serializer_class = TradeSerializer
     permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
-        return self.request.user.trade_set.all()
+        return self.request.user.trade_set.filter(confirmed__isnull=False)
 
 
 class AvatarViewSet(RetrieveUpdateAPIView):

@@ -5,7 +5,7 @@ from rest_framework import serializers
 from rest_framework.reverse import reverse
 
 from restful.models.goods import Goods
-from restful.models.reward import First, FirstPrize
+from restful.models.reward import First
 from restful.serializers.banner import BannerSerializer
 from restful.serializers.bootstrap import VersionSerializer
 from restful.serializers.keyword import KeywordSerializer
@@ -56,4 +56,4 @@ class CustomerHyperlink(serializers.HyperlinkedRelatedField):
 class FirstSerializer(serializers.ModelSerializer):
     class Meta:
         model = First
-        fields = ('platform', 'coordinate', 'screensize')
+        fields = ('platform', 'coordinate', 'screensize', 'phonebrand', 'phonemodel')

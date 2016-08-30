@@ -25,7 +25,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 env = environ.Env()
 
 FIXTURE_DIRS = (
-   ROOT_DIR+'/database/fixtures',
+    ROOT_DIR + '/database/fixtures',
 )
 
 # Quick-start development settings - unsuitable for production
@@ -52,7 +52,6 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.flatpages',
     'django_extensions',
-
 )
 
 MIDDLEWARE_CLASSES = (
@@ -67,6 +66,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'restful.middleware.DisableCSRFCheck',
+    # 'sslify.middleware.SSLifyMiddleware',
     # 'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
 )
 
@@ -132,7 +132,6 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
 
 LANGUAGE_CODE = 'zh-hans'
-
 
 # TIME_ZONE = 'UTC'
 TIME_ZONE = 'Asia/Shanghai'

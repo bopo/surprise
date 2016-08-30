@@ -22,6 +22,7 @@ django_extensions
 django-rest-auth
 #django-sendfile
 #django-allauth
+django-cachalot
 
 django-environ
 django-secure

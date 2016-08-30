@@ -1,17 +1,16 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-import json
 import time
 
 import jpush as jpush
-import requests
 from celery.task import task
 from django.conf import settings
 from django.db.models import Q
 from django.utils.timezone import now, timedelta
 from dynamic_scraper.utils.task_utils import TaskUtils
 
+from restful.jobs.hourly.reward import get_data
 from restful.models.reward import Reward
 from restful.models.scraper import CollectWebsite, Goods
 from restful.models.trade import Trade
@@ -38,19 +37,6 @@ def _do_kground_work(name):
         print 'hello:%s %s' % (name, i)
 
     time.sleep(1)
-
-
-def get_data():
-    url = 'http://nufm.dfcfw.com/EM_Finance2014NumericApplication/JS.aspx?type=CT' \
-          '&cmd=0000011,3990012,3990052,3990062,hsi5,djia7&sty=MPNSBAS&st=&sr=1' \
-          '&p=1&ps=1000&token=44c9d251add88e27b65ed86506f6e5da' \
-          '&cb=callback08571712439879775&callback=callback08571712439879775&_=1457324522778'
-
-    req = requests.get(url)
-    txt = req.text.replace('callback08571712439879775', '').strip('(').strip(')')
-    ret = json.loads(txt)
-
-    return ret[0].split(',')[3]
 
 
 def do_push_work(msgs=None, uid=None, *args, **kwargs):

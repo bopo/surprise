@@ -11,6 +11,9 @@ except ImportError, e:
 DEBUG = True
 
 INSTALLED_APPS += (
+    # 'rest_framework_swagger',
+    "sslserver",
+    # 'cachalot',
     # 'django_q',
     # 'django_baker',
     # "debug_toolbar",
@@ -52,11 +55,12 @@ DATABASES = {
 }
 
 if DEBUG:
-    INSTALLED_APPS += ('debug_toolbar','raven.contrib.django.raven_compat',)
+    INSTALLED_APPS += ('debug_toolbar', 'raven.contrib.django.raven_compat',)
     MIDDLEWARE_CLASSES += ('debug_toolbar.middleware.DebugToolbarMiddleware',)
     DEBUG_TOOLBAR_CONFIG = {'JQUERY_URL': '//cdn.bootcss.com/jquery/2.1.4/jquery.min.js'}
-    
+
     import raven
+
     RAVEN_CONFIG = {
         'dsn': 'http://e4899f2e02c44585b3f0243af059ffce:c1bdb8f4725c4d3683af484a76cc76ad@10.7.7.100:9000/2',
         # 'release': raven.fetch_git_sha(os.path.dirname(__file__)),
@@ -147,3 +151,6 @@ else:
 #     from .logs import *
 # except ImportError, e:
 #     raise e
+
+# SECURE_SSL_REDIRECT = False
+# SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')

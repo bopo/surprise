@@ -16,13 +16,13 @@ class QueryTest(APITestCase):
         response = self.client.get('/api/v1.0/query/', format='json')
         self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
 
-    def test_get_keyword(self):
-        data = {
-            "keyword": "女鞋",
-            "page_no": None,
-            "page_size": None,
-            "sort": ""
-        }
-
-        response = self.client.get('/api/v1.0/query/', data=data, format='json')
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+    # def test_get_keyword(self):
+    #     data = {
+    #         "keyword": "女鞋",
+    #         "page_no": None,
+    #         "page_size": None,
+    #         "sort": ""
+    #     }
+    #
+    #     response = self.client.get('/api/v1.0/query/', data=data, format='json')
+    #     self.assertEqual(response.status_code, status.HTTP_200_OK)

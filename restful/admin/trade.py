@@ -5,12 +5,11 @@ from django.contrib import admin
 from import_export.admin import ExportMixin, ImportMixin
 from reversion.admin import VersionAdmin
 
-from ..models.reward import FirstPrize
-from ..models.trade import Trade, Orders
+from ..models.trade import Trade
 
 
 class TradeAdmin(ExportMixin, VersionAdmin):
-    list_display = ('orderid', 'owner', 'number', 'reward', 'rebate', 'created')
+    list_display = ('orderid', 'owner', 'number', 'reward', 'rebate', 'created', 'confirmed')
     # readonly_fields = ('orderid', 'open_iid', 'owner',)
     list_filter = ('owner', 'created')
 
@@ -32,6 +31,3 @@ class OrdersAdmin(ImportMixin, VersionAdmin):
 
 admin.site.register(Trade, TradeAdmin)
 # admin.site.register(Orders, OrdersAdmin)
-
-
-

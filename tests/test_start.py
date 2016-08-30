@@ -5,42 +5,44 @@ from rest_framework.test import APITestCase
 
 
 class StartTest(APITestCase):
-    def test_get_list(self):
-        response = self.client.get('/api/v1.0/start/', format='json')
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        del response
+    pass
 
-        response = self.client.get('/api/v1.0/start', format='json')
-        self.assertEqual(response.status_code, status.HTTP_301_MOVED_PERMANENTLY)
-        del response
-
-    def test_get_detail(self):
-        response = self.client.get('/api/v1.0/start/', format='json')
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-
-        response = self.client.get('/api/v1.0/start', format='json')
-        self.assertEqual(response.status_code, status.HTTP_301_MOVED_PERMANENTLY)
-
-    def test_post(self):
-        response = self.client.get('/api/v1.0/start/', format='json')
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-
-        response = self.client.get('/api/v1.0/start', format='json')
-        self.assertEqual(response.status_code, status.HTTP_301_MOVED_PERMANENTLY)
-
-    def test_put(self):
-        response = self.client.get('/api/v1.0/start/', format='json')
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-
-        response = self.client.get('/api/v1.0/start', format='json')
-        self.assertEqual(response.status_code, status.HTTP_301_MOVED_PERMANENTLY)
-
-    def test_delete(self):
-        response = self.client.get('/api/v1.0/start/', format='json')
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-
-        response = self.client.get('/api/v1.0/start', format='json')
-        self.assertEqual(response.status_code, status.HTTP_301_MOVED_PERMANENTLY)
+    # def test_get_list(self):
+    #     response = self.client.get('/api/v1.0/start/', format='json')
+    #     self.assertEqual(response.status_code, status.HTTP_200_OK)
+    #     del response
+    #
+    #     response = self.client.get('/api/v1.0/start', format='json')
+    #     self.assertEqual(response.status_code, status.HTTP_301_MOVED_PERMANENTLY)
+    #     del response
+    #
+    # def test_get_detail(self):
+    #     response = self.client.get('/api/v1.0/start/', format='json')
+    #     self.assertEqual(response.status_code, status.HTTP_200_OK)
+    #
+    #     response = self.client.get('/api/v1.0/start', format='json')
+    #     self.assertEqual(response.status_code, status.HTTP_301_MOVED_PERMANENTLY)
+    #
+    # def test_post(self):
+    #     response = self.client.get('/api/v1.0/start/', format='json')
+    #     self.assertEqual(response.status_code, status.HTTP_200_OK)
+    #
+    #     response = self.client.get('/api/v1.0/start', format='json')
+    #     self.assertEqual(response.status_code, status.HTTP_301_MOVED_PERMANENTLY)
+    #
+    # def test_put(self):
+    #     response = self.client.get('/api/v1.0/start/', format='json')
+    #     self.assertEqual(response.status_code, status.HTTP_200_OK)
+    #
+    #     response = self.client.get('/api/v1.0/start', format='json')
+    #     self.assertEqual(response.status_code, status.HTTP_301_MOVED_PERMANENTLY)
+    #
+    # def test_delete(self):
+    #     response = self.client.get('/api/v1.0/start/', format='json')
+    #     self.assertEqual(response.status_code, status.HTTP_200_OK)
+    #
+    #     response = self.client.get('/api/v1.0/start', format='json')
+    #     self.assertEqual(response.status_code, status.HTTP_301_MOVED_PERMANENTLY)
 
         # /api/v1.0/first/
         # /api/v1.0/trade/

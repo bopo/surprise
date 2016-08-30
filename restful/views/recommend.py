@@ -6,17 +6,15 @@ import top.api
 from django.conf import settings
 from django.core.cache import cache
 from django.db.models import Q
-from django.utils.timezone import now, timedelta
 from django_filters import FilterSet, NumberFilter
+from rest_framework import filters
 from rest_framework import mixins
 from rest_framework import viewsets, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-# from django.f import filters
-from rest_framework import filters
 
 from restful.contrib.restauth.settings import TokenSerializer
-from restful.models.affairs import Holiday
+from restful.lottery import set_exchange
 from restful.models.banner import Banner
 from restful.models.goods import Goods, GoodsCategory
 from restful.models.prompt import Prompt, Discount
@@ -30,33 +28,48 @@ from restful.utils import compile_html
 from restful.views import BaseViewSet
 
 
-def get_exchange(user):
-    instance = Prompt.objects.first()
-    switch__ = instance.switchs if instance else False
-    holiday = Holiday.objects.filter(year=now().year)
+# def set_exchange(user):
+#     instance = Prompt.objects.first()
+#     switch__ = instance.switchs if instance else False
+#
+#     holiday = Holiday.objects.filter(year=now().year)
+#
+#     total = 1
+#     today = now().date()
+#
+#     if switch__:
+#         total = Trade.objects.filter(owner=user, created__exact=now()).count()
+#         total = int(total) + 1
+#
+#     while True:
+#         if not holiday:
+#             break
+#
+#         forward = today + timedelta(days=+total)
+#
+#         if str(forward) not in holiday.get().date.split(','):
+#             break
+#
+#         total += 1
+#
+#     # 周六日休市
+#     weeks = today.isoweekday()
+#     total += weeks - 5 if weeks > 5 else 0
+#
+#     return today + timedelta(days=+total)
 
-    total = 1
 
-    if switch__:
-        total = Trade.objects.filter(owner=user, created__exact=now()).count()
-        total = int(total) + 1
-
-    while True:
-        if not holiday:
-            break
-
-        forward = now().date() + timedelta(days=+total)
-
-        if str(forward) not in holiday.get().date.split(','):
-            break
-
-        total += 1
-
-    # 周六日休市
-    weeks = now().isoweekday()
-    total += weeks - 5 if weeks > 5 else 0
-
-    return now().date() + timedelta(days=+total)
+# def has_exchange():
+#     holiday = Holiday.objects.filter(year=now().year)
+#     today = now().date()
+#     weeks = today.isoweekday()
+#
+#     if holiday:
+#         if str(today) in holiday.get().date.split(','):
+#             return False
+#
+#     # 周六日休市
+#     return False if weeks > 5 else True
 
 
 class SearchFilter(FilterSet):
@@ -83,7 +96,7 @@ class SearchViewSet(viewsets.ReadOnlyModelViewSet, BaseViewSet):
         ?ordering=-promotion_price 代表倒序 (字段前面加个 - 代表倒序)
     '''
     # queryset = Goods.objects.filter(delist_time__gt=now())
-    queryset = Goods.objects.all()
+    queryset = Goods.objects.filter(open_iid__isnull=False)
     serializer_class = GoodsSerializer
     filter_backends = (filters.DjangoFilterBackend, filters.OrderingFilter,)
     # filter_class = SearchFilter
@@ -234,7 +247,7 @@ class RecommendViewSet(viewsets.ReadOnlyModelViewSet):
     '''
     '''
     # queryset = Goods.objects.filter(recommend=1, delist_time__gt=now()).order_by('ordering')
-    queryset = Goods.objects.filter(recommend=1).order_by('ordering')
+    queryset = Goods.objects.filter(recommend=1, open_iid__isnull=False).order_by('ordering')
     # queryset = Goods.objects.filter(recommend=1)
     serializer_class = GoodsSerializer
 
@@ -262,12 +275,12 @@ class RecommendViewSet(viewsets.ReadOnlyModelViewSet):
         queryset = self.filter_queryset(self.get_queryset())
 
         page = self.paginate_queryset(queryset)
+
         if page is not None:
             serializer = self.get_serializer(page, many=True)
             return self.get_paginated_response(serializer.data)
 
         serializer = self.get_serializer(queryset, many=True)
-        print serializer.data
         return Response(serializer.data)
 
 
@@ -301,7 +314,7 @@ class RandomViewSet(mixins.CreateModelMixin, mixins.ListModelMixin, viewsets.Gen
 
         data['trend_url'] = settings.TREND_URL
         data['discount'] = discount
-        data['forward'] = get_exchange(request.user)
+        data['forward'] = set_exchange(request.user)
 
         return Response(data)
 
