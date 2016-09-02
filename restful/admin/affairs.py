@@ -7,7 +7,7 @@ from reversion.admin import VersionAdmin
 
 from ..contrib.consumer.models import Extract
 from ..forms.affairs import AffairsForm
-from ..models.affairs import Affairs, Notice
+from ..models.affairs import Affairs, Notice, NoticeTemplate
 
 
 class AffairsAdmin(VersionAdmin):
@@ -37,6 +37,7 @@ class NoticeAdmin(VersionAdmin):
 
 
 admin.site.register(Notice, NoticeAdmin)
+# admin.site.register(NoticeTemplate)
 
 
 class ExtractAdmin(VersionAdmin):

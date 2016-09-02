@@ -6,7 +6,9 @@ from django.utils.timezone import now
 from django_extensions.management.jobs import BaseJob
 
 import top.api
+from restful.message import Notification
 from restful.models.trade import Trade
+from restful.tasks import do_push_notification
 from top.api.base import TopException
 
 APPKEY = settings.TOP_APPKEY
@@ -43,6 +45,13 @@ class Job(BaseJob):
                     )
 
                     print mesgsid, ret
+                    # @todo 推送消息调整 加到 `celery` 里 确认订单
+                    # Notification('confirm').send()
+                    do_push_notification({
+                        'category': 'confirm',
+                        'username': ret.owner.name,
+                        'goods': ret.title,
+                    })
 
                     self.confirmed(mesgsid)
 

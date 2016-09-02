@@ -34,7 +34,8 @@ env.fixtures = (
 
 env.excludes = (
     "*.pyc", "*.db", ".DS_Store", ".coverage", ".git", ".hg", ".tox", ".idea/",
-    'assets/', 'database/backups', 'database/fixtures/', 'runtime/', 'node_modules', 'top')
+    'assets/', 'database/backups', 'database/fixtures/', 'runtime/', 'node_modules',
+    'top', 'cert')
 
 env.remote_dir = '/home/apps/surprise'
 env.local_dir = '.'

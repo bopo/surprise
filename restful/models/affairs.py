@@ -44,6 +44,7 @@ class NoticeTemplate(models.Model):
         ('signup', "注册消息"),
         ('system', "系统消息"),
         ('payment', "支付消息"),
+        ('confirm', "商品确认"),
     )
 
     category = models.CharField(verbose_name=_(u'消息模板分类'), max_length=255, default='', choices=CATEGORY_CHOICES)
@@ -71,21 +72,22 @@ class Notice(TimeStampedModel):
         help_text=_(u'注册成功后发送的消息,只能有一条. 用户设置为空, 必须为置顶'))
     title = models.CharField(verbose_name=_(u'消息标题'), max_length=255, default='')
     content = models.TextField(verbose_name=_(u'消息正文'), default='')
+    template = models.CharField(verbose_name=_(u'模板名称'), max_length=255, default='default', unique=True)
 
-    def push(self, *args, **kwargs):
-        msgs = self.title
-        push = jpush.JPush(settings.JPUSH_APPKEY, settings.JPUSH_SECRET)
-        push = push.create_push()
-
-        extras = {'mobile': self.owner.mobile}
-        push.notification = jpush.notification(alert=msgs)
-        push.options = {"time_to_live": 86400, "apns_production": True, 'extras': extras}
-        push.audience = jpush.audience(
-            jpush.registration_id(self.owner.registration_id)) if self.owner.registration_id else jpush.all_
-        push.platform = jpush.all_
-        push.send()
-
-        return True
+    # def push(self, *args, **kwargs):
+    #     msgs = self.title
+    #     push = jpush.JPush(settings.JPUSH_APPKEY, settings.JPUSH_SECRET)
+    #     push = push.create_push()
+    #
+    #     extras = {'mobile': self.owner.mobile}
+    #     push.notification = jpush.notification(alert=msgs)
+    #     push.options = {"time_to_live": 86400, "apns_production": True, 'extras': extras}
+    #     push.audience = jpush.audience(
+    #         jpush.registration_id(self.owner.registration_id)) if self.owner.registration_id else jpush.all_
+    #     push.platform = jpush.all_
+    #     push.send()
+    #
+    #     return True
 
     def __unicode__(self):
         return '%s: %s' % (self.owner, self.title)

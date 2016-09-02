@@ -8,7 +8,7 @@ try:
 except ImportError, e:
     raise e
 
-DEBUG = True
+DEBUG = env.bool("DJANGO_DEBUG", True)
 
 INSTALLED_APPS += (
     # 'rest_framework_swagger',

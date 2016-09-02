@@ -324,18 +324,18 @@ def sync_profile(instance, created, **kwargs):
 
         print "sync profile."
 
-        if settings.DEBUG:
-            print 'debug sync do_push_msgs.'
-            return True
+        # if settings.DEBUG:
+        #     print 'debug sync do_push_msgs.'
+        #     return True
+        #
+        # try:
+        #     notice = Notice.objects.filter(registration=True).get()
+        #     do_push_msgs(msgs=notice.title, mobile=instance.mobile, registration_id=instance.registration_id)
+        # except Exception, e:
+        #     print 'raise do_push_msgs.'
+        #     print e.message
 
-        try:
-            notice = Notice.objects.filter(registration=True).get()
-            do_push_msgs(msgs=notice.title, mobile=instance.mobile, registration_id=instance.registration_id)
-        except Exception, e:
-            print 'raise do_push_msgs.'
-            print e.message
-
-        print 'sync do_push_msgs.'
+        # print 'sync do_push_msgs.'
 
 
 class Feedback(TimeStampedModel, StatusModel):

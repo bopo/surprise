@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
+
 from django.db.models import Q
 from django_extensions.management.jobs import BaseJob
 from fabric.colors import red, green, blue, yellow
 from jinja2 import Template
 from model_utils.models import now
 
+from restful.tasks import do_push_notification
 from ..lottery import has_exchange
 from ..models.affairs import Notice, NoticeTemplate
 from ..models.total import Trend
@@ -25,7 +27,7 @@ def reward(today):
     if value:
         # 选择开奖日期是今天的订单
         orders = Trade.objects.filter(Q(exchange=today) & Q(rebate__isnull=True) & Q(confirmed__isnull=False) & (
-        Q(order_status='2') | Q(order_status='6')))
+            Q(order_status='2') | Q(order_status='6')))
 
         number = value.get().number
 
@@ -54,7 +56,14 @@ def reward(today):
 
                 if x.reward == 1:
                     # 推送中奖消息
-                    # self.push_lottery(x)
+                    # @todo 推送消息调整 加到 `celery` 里
+                    # Notification('reward').send(dict(1, 2, 3))
+                    do_push_notification({
+                        'category': 'reward',
+                        'username': x.owner.name,
+                        'rebate': x.rebate,
+                        'goods': x.title,
+                    })
 
                     # 发送短信通知
                     # self.send_mobile(None)

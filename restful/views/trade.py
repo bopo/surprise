@@ -7,9 +7,11 @@ from rest_framework.viewsets import GenericViewSet
 
 from restful.helpers import DetailGet
 from restful.lottery import set_exchange
+from restful.message import Notification
 from restful.models.goods import Goods
 from restful.models.trade import Trade
 from restful.serializers.trade import TradeSerializer
+from restful.tasks import do_push_notification
 
 
 def get_picurl(open_iid):
@@ -44,3 +46,10 @@ class TradeViewSet(mixins.CreateModelMixin, GenericViewSet):
         # @todo 获取商品信息, 更新交易表
         pic_url = get_picurl(self.request.data['open_iid'])
         serializer.save(owner=self.request.user, pic_url=pic_url, exchange=set_exchange(self.request.user))
+
+        # @todo 推送消息调整 加到 `celery` 里 支付通知 payment
+        do_push_notification({
+            'category': 'payment',
+            'username': self.request.user.username,
+            'goods': serializer.title,
+        })

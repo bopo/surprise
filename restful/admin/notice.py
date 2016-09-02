@@ -8,7 +8,7 @@ from restful.models.affairs import NoticeTemplate
 
 
 class NoticeTemplateAdmin(VersionAdmin):
-    pass
+    list_display = ('category', 'subject')
     # def preview(self, obj):
     #     return '<img src="%s" height="64" width="64" />' % obj.cover.url
     #

@@ -59,8 +59,8 @@ def apps(request):
 
 
 def packet(request):
-    from restful.tasks import _do_kground_work
-    _do_kground_work.delay('GreenPine')
+    # from restful.tasks import _do_kground_work
+    # _do_kground_work.delay('GreenPine')
     return render(request, 'packet.html', locals())
 
 

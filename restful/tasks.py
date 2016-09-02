@@ -1,102 +1,44 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
+from __future__ import absolute_import
 
-import time
+from celery import shared_task
+from django.core.mail import send_mail
 
-import jpush as jpush
-from celery.task import task
-from django.conf import settings
-from django.db.models import Q
-from django.utils.timezone import now, timedelta
-from dynamic_scraper.utils.task_utils import TaskUtils
-
-from restful.jobs.hourly.reward import get_data
-from restful.models.reward import Reward
-from restful.models.scraper import CollectWebsite, Goods
-from restful.models.trade import Trade
+from restful.message import Notification
 
 
-@task()
-def run_spiders():
-    t = TaskUtils()
-    t.run_spiders(CollectWebsite, 'scraper', 'scraper_runtime', 'goods_spider')
+@shared_task
+def add(x, y):
+    return x + y
 
 
-@task()
-def run_checkers():
-    t = TaskUtils()
-    t.run_checkers(Goods, 'collect_website__scraper', 'checker_runtime', 'goods_checker')
+@shared_task
+def mul(x, y):
+    return x * y
 
 
-@task
-def _do_kground_work(name):
-    """
-    这里用time 模拟耗时操作
-    """
-    for i in range(1, 10):
-        print 'hello:%s %s' % (name, i)
-
-    time.sleep(1)
+@shared_task
+def xsum(numbers):
+    return sum(numbers)
 
 
-def do_push_work(msgs=None, uid=None, *args, **kwargs):
-    opts = jpush.JPush(settings.JPUSH_APPKEY, settings.JPUSH_SECRET)
-    push = opts.create_push()
-
-    extras = {'uid': uid} and uid
-
-    push.notification = jpush.notification(alert=msgs)
-
-    push.options = {"time_to_live": 86400, 'sendno': 12345, "apns_production": True, 'extras': extras}
-    # push.message = msgs
-
-    push.audience = jpush.all_
-    push.platform = jpush.all_
-
-    push.send()
+@shared_task
+def do_push_notification(*args, **kwargs):
+    data = dict(*args, **kwargs)
+    Notification(data.get('category')).send(data)
 
 
-@task
-def do_reward_work():
-    value = get_data()
+@shared_task
+def do_send_email(*args, **kwargs):
+    data = dict(*args, **kwargs)
+    vars = locals()
 
-    if value:
-        value = value.replace('.', '')
-        value = value[-3:]
-        today = now().date()
+    for k, v in data.items():
+        vars[k] = v
 
-        yestoday = today - timedelta(days=1)
+    send_mail(locals())
 
-        print today, yestoday
 
-        t = Reward.objects.get_or_create(today=today, value=value)
-        t = Trade.objects.filter(Q(created__lt=today) & Q(number__startswith=value[:1]) & Q(rebate__isnull=True))
-
-        if t:
-            for x in t:
-                x.reward = 1
-                x.rebate = '0.9'
-                x.save()
-                # push_msg()
-
-        t = Trade.objects.filter(Q(created__lt=today) & Q(number__startswith=value[:2]) & Q(rebate__isnull=True))
-
-        if t:
-            for x in t:
-                x.reward = 1
-                x.rebate = '0.5'
-                x.save()
-                # push_msg()
-
-        t = Trade.objects.filter(Q(created__lt=today) & Q(number=value) & Q(rebate__isnull=True))
-
-        if t:
-            for x in t:
-                x.reward = 1
-                x.rebate = '1.0'
-                x.save()
-                # push_msg()
-
-        print '[-] Updated today value is %s' % value
-    else:
-        print '[!] error!'
+@shared_task
+def do_send_sms(*args, **kwargs):
+    data = dict(*args, **kwargs)
+    pass

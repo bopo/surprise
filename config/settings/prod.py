@@ -60,4 +60,10 @@ DATABASES = {
 # SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+# BROKER_URL = "redis://127.0.0.1:6379/0"
+# BROKER_HOST = "127.0.0.1"
+# BROKER_PORT = 5672
+# BROKER_USER = "root"
+# BROKER_PASSWORD = "root"
+# BROKER_VHOST = "/"
 
