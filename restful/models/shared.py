@@ -3,15 +3,24 @@ from __future__ import unicode_literals
 
 from django.conf import settings
 from django.db import models
+from django.db.models import signals
+from django.dispatch import receiver
+from django.utils.timezone import now, timedelta
 from django.utils.translation import ugettext_lazy as _
+from fabric.colors import *
 from model_utils.models import TimeStampedModel
+
+from restful.signals.shared import affairs
 
 
 class SharedRule(TimeStampedModel):
-    start_date = models.DateField(verbose_name=_(u'开始时间'), blank=False)
-    end_date = models.DateField(verbose_name=_(u'过期时间'), blank=False)
+    EVERY_CHOICES = (('monthly', '每月'), ('weekly', '每周'), ('day', '每天'))
+    every = models.CharField(verbose_name=_('分享周期'), max_length=100, choices=EVERY_CHOICES, default=None,
+        help_text=_('设置该项,开始时间过期时间不起作用'), blank=True, null=True)
+    start_date = models.DateField(verbose_name=_(u'开始时间'), blank=True, null=True)
+    end_date = models.DateField(verbose_name=_(u'过期时间'), blank=True, null=True)
     number = models.IntegerField(verbose_name=_(u'分享次数'), default='1')
-    price = models.FloatField(verbose_name=_(u'奖励金额'), default='0.00')
+    price = models.FloatField(verbose_name=_(u'奖励金额'), default='0.00', help_text=_('每次奖励金额'))
 
     class Meta:
         verbose_name = _(u'分享规则')
@@ -53,3 +62,63 @@ class Shared(TimeStampedModel):
 
     def __str__(self):
         return self.__unicode__()
+
+
+def shared_rule(owner=None, today=None, rule=None):
+    nums = 0
+    today = now().date() if today is None else today
+    query = Shared.objects.filter(owner=owner, model='1')
+
+    if not rule:
+        print 'no rule'
+        return False
+
+    if rule.every is not None:
+
+        if rule.every == 'day':  # 每日
+            nums = query.filter(created__month=today.month, created__day=today.day).count()
+            print owner, green('every day add money +'), rule.price, nums
+
+        if rule.every == 'weekly':  # 每周
+            weekday = today.weekday()
+            start_date = today + timedelta(days=-weekday)
+            end_date = start_date + timedelta(days=6)
+            nums = query.filter(created__range=(start_date, end_date)).count()
+            print owner, green('every weekly money +'), rule.price, nums
+
+        if rule.every == 'monthly':  # 每月
+            nums = query.filter(created__month=today.month).count()
+            print owner, green('every monthly money +'), rule.price, nums
+
+        if (nums <= rule.number) & (rule.price > 0.00):
+            print owner, green('every add money +'), rule.price
+            affairs(owner=owner, price=rule.price, rule=rule)
+            return rule.every, nums, rule.price
+        else:
+            print red('nums > number'), nums
+
+    else:
+        nums = query.filter(created__range=(rule.start_date, rule.end_date)).count()
+        if (nums <= rule.number) & (rule.price > 0.00):
+            print owner, green('add money +'), rule.price
+            affairs(owner=owner, price=rule.price, rule=rule)
+            return False, nums, rule.price
+        else:
+            print red('nums > number'), nums
+
+    return False, False, False
+
+
+def shared_rules(owner, today=None):
+    today = now().date() if today is None else today
+    rules = SharedRule.objects.all()
+
+    if rules:
+        for rule in rules:
+            shared_rule(owner=owner, today=today, rule=rule)
+
+
+@receiver(signals.post_save, sender=Shared)
+def sync_shared(instance, created, **kwargs):
+    if created:
+        shared_rules(owner=instance.owner)

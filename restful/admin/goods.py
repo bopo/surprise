@@ -20,6 +20,9 @@ class GoodsAdmin(VersionAdmin, ImportExportModelAdmin):
     def preview(self, obj):
         return '<img src="%s_64x64.jpg" height="64" width="64" />' % obj.pic_url
 
+    def show_price(self, obj):
+        return obj.promotion_price if obj.promotion_price else obj.price
+
     def rate(self, obj):
         if obj.commission_rate:
             return '%.1f' % (float(obj.commission_rate) / 100.00) + '%'
@@ -37,7 +40,8 @@ class GoodsAdmin(VersionAdmin, ImportExportModelAdmin):
     commission_price.short_description = u'返利'
 
     list_display = (
-    'preview', 'title', 'price', 'rate', 'commission_price', 'recommend', 'category_recommend', 'besting')
+        'preview', 'title', 'promotion_price', 'price', 'rate', 'commission_price', 'recommend', 'category_recommend',
+        'besting')
     list_filter = ('created', 'modified', 'status_changed', 'recommend', 'category', 'category_recommend')
     readonly_fields = ('status_changed', 'created', 'open_iid')
     list_editable = ('category_recommend', 'recommend', 'besting')

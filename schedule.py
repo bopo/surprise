@@ -21,7 +21,7 @@ cron.script('manage.py runscript collect_liwushuo_items', every='9.hour')
 # cron.script('manage.py runjob collect_nanyibang_items', every='9.hour')
 # cron.script('manage.py runjob n2oid', every='3.hour')
 
-cron.script('manage.py runjob tmc', every='5.minute')
+cron.script('manage.py runjob tmc', every='15.minute')
 cron.script('manage.py runjob trend', every='16.hour')
 cron.script('manage.py runjob reward', every='1.day')
 

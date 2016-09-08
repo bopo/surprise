@@ -7,7 +7,6 @@ from rest_framework.viewsets import GenericViewSet
 
 from restful.helpers import DetailGet
 from restful.lottery import set_exchange
-from restful.message import Notification
 from restful.models.goods import Goods
 from restful.models.trade import Trade
 from restful.serializers.trade import TradeSerializer
@@ -48,8 +47,11 @@ class TradeViewSet(mixins.CreateModelMixin, GenericViewSet):
         serializer.save(owner=self.request.user, pic_url=pic_url, exchange=set_exchange(self.request.user))
 
         # @todo 推送消息调整 加到 `celery` 里 支付通知 payment
-        do_push_notification({
+        do_push_notification.delay({
             'category': 'payment',
             'username': self.request.user.username,
-            'goods': serializer.title,
+            'title': serializer.data['title'],
         })
+
+        # 同步订单任务
+        # do_sync_tmc.delay()

@@ -39,6 +39,7 @@ class Notification:
             return False
 
         print content.content
+
         template = Template(content.content)
         messages = template.render(dict(*args, **kwargs))
 
@@ -48,7 +49,6 @@ class Notification:
         push = opts.create_push()
 
         push.notification = jpush.notification(alert=messages)
-
         push.options = {"time_to_live": 86400, "apns_production": True, 'extras': kwargs.get('extras')}
         push.audience = jpush.audience(jpush.registration_id(registration_id)) if registration_id else jpush.all_
         push.platform = jpush.all_
@@ -62,12 +62,9 @@ def do_push_msgs(msgs=None, mobile=None, registration_id=None, *args, **kwargs):
     extras = {'mobile': mobile}
 
     push.notification = jpush.notification(alert=msgs)
-
     push.options = {"time_to_live": 86400, "apns_production": True, 'extras': extras}
-
     push.audience = jpush.audience(jpush.registration_id(registration_id)) if registration_id else jpush.all_
     push.platform = jpush.all_
-
     push.send()
 
     return True

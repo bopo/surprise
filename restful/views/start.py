@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+ # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
 import random
@@ -19,14 +19,14 @@ from restful.models.banner import Banner
 from restful.models.bootstrap import Version
 from restful.models.goods import Goods
 from restful.models.keyword import Keyword
-from restful.models.prompt import Prompt
+from restful.models.prompt import Prompt, SharePrompt
 from restful.models.reward import First, FirstPrize
 from restful.models.total import Total, Trend
 from restful.serializers.banner import BannerSerializer
 from restful.serializers.bootstrap import VersionSerializer
 from restful.serializers.goods import BestsGoodsSerializer
 from restful.serializers.keyword import KeywordSerializer
-from restful.serializers.prompt import PromptSerializer
+from restful.serializers.prompt import PromptSerializer, SharePromptSerializer
 from restful.serializers.start import FirstSerializer
 from restful.serializers.total import TotalSerializer, TrendSerializer
 
@@ -59,8 +59,9 @@ class StartViewSet(MultipleModelViewSet):
             (Keyword.objects.all(), KeywordSerializer, 'keyword'),
             (Version.objects.all(), VersionSerializer),
             (Banner.objects.all(), BannerSerializer),
-            (Total.objects.order_by('id')[:1], TotalSerializer),
+            (Total.objects.order_by('-id')[:1], TotalSerializer),
             (Trend.objects.filter(exchange=get_exchange()), TrendSerializer),
+            (SharePrompt.objects.order_by('-id')[:1], SharePromptSerializer),
             (Prompt.objects.all(), PromptSerializer),
         )
 

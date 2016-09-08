@@ -6,10 +6,9 @@ import re
 import urllib
 
 from django.conf import settings
+from django.contrib.sites.models import Site
 from django.core.cache import cache
 from rest_framework import viewsets, status, filters
-# from rest_framework.permissions import IsAuthenticated
-from django.contrib.sites.models import Site
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework.settings import api_settings
@@ -79,69 +78,75 @@ class CollectViewSet(viewsets.GenericViewSet):
         return channel_list
 
     def create(self, request, *args, **kwargs):
-        try:
-            length = request.data.get('len', 0)
-            data = request.data.get('data')
-            data = urllib.unquote(str(data))
-            data = json.loads(data)
-            nums = 0
+        length = request.data.get('len', 0)
 
-            open('data.json', 'w').write(json.dumps(data))
+        data = request.data.get('data')
+        data = urllib.unquote(str(data))
+        data = json.loads(data)
+        nums = 0
 
-            if len(data) != int(length):
-                return Response('len error!', status=status.HTTP_403_FORBIDDEN)
+        if len(data) != int(length):
+            return Response('len error!', status=status.HTTP_403_FORBIDDEN)
 
-            fields = ('commission', 'from_name', 'sid', 'title', 'nick', 'cid', 'num', 'nick')
+        fields = ('commission', 'from_name', 'sid', 'title', 'nick', 'cid', 'num', 'nick')
 
-            for k, v in data.items():
-                print k, v['title']
-                collect, _status = Collect.objects.get_or_create(num_iid=k)
+        for k, v in data.items():
 
-                if _status:
-                    for field in fields:
-                        if v.get(field):
-                            setattr(collect, field, v.get(field))
-                        else:
-                            print 'no %s.' % field
+            collect, _status = Collect.objects.get_or_create(num_iid=k)
 
-                    if v.get('yh_price', None):
-                        collect.promotion_price = v.get('yh_price')
+            if _status:
+                for field in fields:
+                    if v.get(field):
+                        setattr(collect, field, v.get(field))
                     else:
-                        print 'no yh_price'
+                        print 'no field %s.' % field
 
-                    if re.findall(r'\d+\.\d{2}', v['price']):
-                        collect.price = re.findall(r'\d+\.\d{2}', v['price'])[0]
-                    else:
-                        print 'no price'
-
-                    if v.get('picurl'):
-                        collect.pic_url = v.get('picurl')
-                    else:
-                        print 'no picurl'
-
-                    if v.get('shop_type'):
-                        collect.shop_type = 'B' if str(v.get('shop_type')) == '1' else 'C'
-                    else:
-                        print 'no shop_type'
-
-                    if v.get('fid'):
-                        collect.category_id = v.get('fid')
-                    else:
-                        print 'no fid'
-
-                    if v.get('images', None):
-                        collect.item_img = json.dumps(v.get('images'))
-                    else:
-                        print 'no images'
-
-                    collect.save()
-
-                    nums += 1
-                    print v['title']
+                if v.get('yh_price', None):
+                    collect.promotion_price = v.get('yh_price')
                 else:
-                    print 'no', v['title']
-        except Exception, e:
-            return Response(e, status=status.HTTP_403_FORBIDDEN)
+                    print 'no yh_price'
+
+                try:
+                    if v.get('price'):
+                        if not str(v.get('price')).isdigit():
+                            if re.findall(r'\d+\.\d{2}', v.get('price')):
+                                collect.price = re.findall(r'\d+\.\d{2}', v.get('price'))[0]
+                            else:
+                                print 'no price'
+                        else:
+                            collect.price = v.get('price')
+                except Exception:
+                    pass
+
+                if v.get('picurl'):
+                    collect.pic_url = v.get('picurl')
+                else:
+                    print 'no picurl'
+
+                if v.get('shop_type'):
+                    collect.shop_type = 'B' if str(v.get('shop_type')) == '1' else 'C'
+                else:
+                    print 'no shop_type'
+
+                if v.get('fid'):
+                    collect.category_id = v.get('fid')
+                else:
+                    print 'no fid'
+
+                if v.get('images', None):
+                    collect.item_img = json.dumps(v.get('images'))
+                else:
+                    print 'no images'
+
+                collect.save()
+
+                nums += 1
+                print v.get('title')
+            else:
+                print 'no', v.get('title')
+                # except Exception, e:
+                #     raise e
+                return Response(e, status=status.HTTP_403_FORBIDDEN)
 
         data = {
             'status': "success",

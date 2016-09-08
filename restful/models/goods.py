@@ -123,7 +123,7 @@ class Goods(StatusModel, TimeStampedModel):
     coupon_start_time = models.DateTimeField(verbose_name=_(u'折扣活动开始时间'), blank=True, null=True)
     coupon_end_time = models.DateTimeField(verbose_name=_(u'折扣活动结束时间'), blank=True, null=True)
 
-    promotion_price = models.CharField(verbose_name=_(u'促销价格'), max_length=255, blank=True, null=True)
+    promotion_price = models.CharField(verbose_name=_(u'促销价'), max_length=255, blank=True, null=True)
     volume = models.CharField(verbose_name=_(u'30天内交易量'), max_length=255, blank=True, null=True)
     pic_url = models.URLField(verbose_name=_(u'图片url'), max_length=255, blank=True, null=True)
     item_img = models.TextField(verbose_name=_(u'多张图片'), max_length=255, blank=True, null=True)
@@ -131,7 +131,7 @@ class Goods(StatusModel, TimeStampedModel):
 
     open_iid = models.CharField(verbose_name=_(u'商品ID'), max_length=255, blank=True, null=True)
     title = models.CharField(verbose_name=_(u'标题'), max_length=255, blank=True, null=True)
-    price = models.DecimalField(verbose_name=_(u'价格'), max_digits=10, decimal_places=2, blank=True, null=True)
+    price = models.DecimalField(verbose_name=_(u'原价格'), max_digits=10, decimal_places=2, blank=True, null=True)
     # saved = models.DecimalField(verbose_name=_(u'节省价格'), max_digits=10, decimal_places=2, blank=True, null=True,
     #     default='0.00')
 

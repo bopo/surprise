@@ -5,6 +5,10 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
 
+class SharePrompt(models.Model):
+    content = models.TextField(verbose_name=_(u'分享提示'), blank=False)
+
+
 class Prompt(models.Model):
     switch2 = models.BooleanField(verbose_name=_(u'购买规则'), default=0)
     content = models.TextField(verbose_name=_(u'规则提示'), blank=False)

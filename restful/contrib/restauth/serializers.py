@@ -7,6 +7,7 @@ from django.contrib.auth.forms import SetPasswordForm
 from django.utils.translation import ugettext_lazy as _
 from rest_framework import exceptions, serializers
 from rest_framework.authtoken.models import Token
+from rest_framework.exceptions import ValidationError
 
 from restful.helpers import check_verify_code
 from .forms import PasswordResetForm
@@ -46,13 +47,13 @@ class LoginSerializer(serializers.Serializer):
             user = authenticate(username=username, password=password)
         else:
             msg = _('必须包含 "username" 和 "password".')
-            raise exceptions.ValidationError(msg)
+            raise ValidationError(msg)
 
         if user:
             if not user.is_active:
-                raise exceptions.ValidationError(_('用户帐户被禁用.'))
+                raise ValidationError(_('用户帐户被禁用.'))
         else:
-            raise exceptions.ValidationError(_('用户名或密码错误,无法登录.'))
+            raise ValidationError(_('手机号或密码错误,无法登录.'))
 
         attrs['user'] = user
         return attrs

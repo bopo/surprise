@@ -5,7 +5,7 @@ import os
 
 from .base import INSTALLED_APPS, BASE_DIR, DEBUG
 
-MEDIA_URL = 'http://101.200.136.70:8000/media/'
+MEDIA_URL = 'http://api.gjingxi.com/media/'
 STATIC_URL = '/static/'
 
 ADMIN_MEDIA_PREFIX = '/media/'

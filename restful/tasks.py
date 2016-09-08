@@ -42,3 +42,7 @@ def do_send_email(*args, **kwargs):
 def do_send_sms(*args, **kwargs):
     data = dict(*args, **kwargs)
     pass
+
+# @shared_task
+# def do_sync_tmc():
+#     TMCMessage.execute()

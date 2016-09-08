@@ -8,8 +8,8 @@ from django.core.paginator import Paginator
 
 import top
 import top.api
-from restful.models.goods import Goods
 from top.api.base import TopException
+from .models.goods import Goods
 
 APPKEY = settings.TOP_APPKEY  # '23255563'
 SECRET = settings.TOP_SECRET  # 'f7092fdb96f20625742d577820936b5c'
@@ -62,6 +62,10 @@ def get_detail(items):
     try:
         print ':: >>> get detail ...'
         resp = req.getResponse()
+
+        if not resp.get('atb_items_detail_get_response').get('atb_item_details'):
+            raise TopException()
+
         data = resp['atb_items_detail_get_response']['atb_item_details']['aitaobao_item_detail']
         rows = []
 
@@ -127,45 +131,118 @@ def convert(num_iids, _detail=False):
         print 'covert', e.message, e.errorcode, e.subcode
         return []
 
+# class TMCMessage:
+#     def confirm(self, send_message, from_message, group_name=None):
+#         req = top.api.TmcMessagesConfirmRequest()
+#         req.set_app_info(top.appinfo(APPKEY, SECRET))
+#
+#         req.s_message_ids = send_message
+#         req.f_message_ids = from_message
+#
+#         if group_name:
+#             req.group_name = group_name
+#
+#         try:
+#             resp = req.getResponse()
+#             print(resp)
+#         except TopException, e:
+#             print(e)
+#
+#     def consume(self, quantity=100, group_name=None):
+#         req = top.api.TmcMessagesConsumeRequest()
+#         req.set_app_info(top.appinfo(APPKEY, SECRET))
+#
+#         req.quantity = quantity
+#
+#         if group_name:
+#             req.group_name = group_name
+#
+#         try:
+#             resp = req.getResponse()
+#             print(resp)
+#         except TopException, e:
+#             print(e)
+#
+#     def process(self):
+#         items = self.consume(quantity=100)
+#
+#         if items:
+#             for x in items:
+#                 pass
+#
+#         # self.confirm(send_message, from_message, group_name=None)
+#         pass
 
-class TMCMessage:
-    def confirm(self, send_message, from_message, group_name=None):
-        req = top.api.TmcMessagesConfirmRequest()
-        req.set_app_info(top.appinfo(APPKEY, SECRET))
 
-        req.s_message_ids = send_message
-        req.f_message_ids = from_message
 
-        if group_name:
-            req.group_name = group_name
-
-        try:
-            resp = req.getResponse()
-            print(resp)
-        except TopException, e:
-            print(e)
-
-    def consume(self, quantity=100, group_name=None):
-        req = top.api.TmcMessagesConsumeRequest()
-        req.set_app_info(top.appinfo(APPKEY, SECRET))
-
-        req.quantity = quantity
-
-        if group_name:
-            req.group_name = group_name
-
-        try:
-            resp = req.getResponse()
-            print(resp)
-        except TopException, e:
-            print(e)
-
-    def process(self):
-        items = self.consume(quantity=100)
-
-        if items:
-            for x in items:
-                pass
-
-        # self.confirm(send_message, from_message, group_name=None)
-        pass
+#
+# class TMCMessage:
+#     def execute(self):
+#
+#         req = top.api.TmcMessagesConsumeRequest()
+#         req.set_app_info(top.appinfo(APPKEY, SECRET))
+#         req.quantity = 100
+#
+#         try:
+#             resp = req.getResponse()
+#             tmcs = resp['tmc_messages_consume_response']['messages']
+#
+#             if tmcs:
+#
+#                 for tmc in tmcs['tmc_message']:
+#                     content = json.loads(tmc['content'])
+#                     orderid = content['order_id']
+#                     mesgsid = str(tmc['id'])
+#
+#                     status = content['order_status']
+#                     extra = content.get('extre')
+#
+#                     ret = Trade.objects.filter(orderid=orderid).update(
+#                         order_status=status,
+#                         confirmed=now(),
+#                         extra=extra
+#                     )
+#
+#                     if ret:
+#                         # @todo 推送消息调整 加到 `celery` 里 确认订单
+#                         do_push_notification({
+#                             'category': 'confirm',
+#                             'username': ret.owner.name,
+#                             'goods': ret.title,
+#                         })
+#
+#                         self.confirm(mesgsid)
+#
+#         except TopException, e:
+#             print(e)
+#
+#     def confirm(self, mesgsid):
+#         '''
+#         {
+#             "tmc_messages_confirm_response":{
+#             "is_success":true
+#             }
+#         }
+#         '''
+#
+#         if not mesgsid:
+#             return None
+#
+#         req = top.api.TmcMessagesConfirmRequest()
+#         req.set_app_info(top.appinfo(APPKEY, SECRET))
+#         req.s_message_ids = ",".join(mesgsid)
+#
+#         try:
+#             resp = req.getResponse()
+#             tmcs = resp.get('tmc_messages_confirm_response')
+#
+#             if tmcs.get('is_success'):
+#                 print 'ok'
+#
+#             print resp
+#
+#         except TopException, e:
+#             print(e)
+#
+#     def process(self):
+#         pass

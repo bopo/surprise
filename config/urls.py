@@ -17,6 +17,7 @@ urlpatterns = (
 
     url(r'^help', 'frontend.views.help', name='help'),
     url(r'^packet$', 'frontend.views.packet', name='packet'),
+    url(r'^packet/(?P<slug>.*)$', 'frontend.views.packet', name='packet'),
     url(r'^downloads/(?P<slug>.*)$', 'frontend.views.downloads', name='downloads'),
     url(r'^downapps$', 'frontend.views.downapps', name='downapps'),
     url(r'^oauth/wechat$', 'frontend.views.wechat'),

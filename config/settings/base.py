@@ -23,6 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # APPS_DIR = ROOT_DIR.path('apps')
 
 env = environ.Env()
+environ.Env.read_env()
 
 FIXTURE_DIRS = (
     ROOT_DIR + '/database/fixtures',

@@ -130,6 +130,7 @@ class TradeViewSet(viewsets.ReadOnlyModelViewSet):
 
     def get_queryset(self):
         return self.request.user.trade_set.filter(confirmed__isnull=False)
+        # return self.request.user.trade_set.all()
 
 
 class AvatarViewSet(RetrieveUpdateAPIView):

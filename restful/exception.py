@@ -75,9 +75,9 @@ def custom_exception_handler(exc, context):
                 data = [v[0] for k, v in detail.items()]
                 msgs = {}
 
-                print detail
-                for k, v in detail.items():
-                    msgs[k] = k + v[0]
+                # for k, v in detail.items():
+                #     msgs[k] = k + v[0]
+                #     msgs[k] = v[0]
             else:
                 msgs = detail
 

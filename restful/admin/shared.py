@@ -14,7 +14,7 @@ class SharedAdmin(VersionAdmin):
 
 
 class SharedRuleAdmin(VersionAdmin):
-    list_display = ('start_date', 'end_date', 'number', 'price')
+    list_display = ('every', 'start_date', 'end_date', 'number', 'price')
 
 
 admin.site.register(Shared, SharedAdmin)

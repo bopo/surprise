@@ -3,7 +3,13 @@ from __future__ import unicode_literals
 
 from rest_framework import serializers
 
-from restful.models.prompt import Prompt
+from restful.models.prompt import Prompt, SharePrompt
+
+
+class SharePromptSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SharePrompt
+        fields = ('content',)
 
 
 class PromptSerializer(serializers.ModelSerializer):

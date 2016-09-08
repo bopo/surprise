@@ -44,16 +44,15 @@ class Job(BaseJob):
                         extra=extra
                     )
 
-                    print mesgsid, ret
-                    # @todo 推送消息调整 加到 `celery` 里 确认订单
-                    # Notification('confirm').send()
-                    do_push_notification({
-                        'category': 'confirm',
-                        'username': ret.owner.name,
-                        'goods': ret.title,
-                    })
+                    if ret:
+                        # @todo 推送消息调整 加到 `celery` 里 确认订单
+                        do_push_notification.delay({
+                            'category': 'confirm',
+                            'username': ret.owner.name,
+                            'goods': ret.title,
+                        })
 
-                    self.confirmed(mesgsid)
+                        self.confirmed(mesgsid)
 
         except TopException, e:
             print(e)

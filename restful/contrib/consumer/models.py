@@ -10,7 +10,7 @@ from django.contrib.contenttypes import fields as generic
 from django.contrib.contenttypes.models import ContentType
 from django.core.files import File
 from django.db import models
-from django.db.models import signals
+from django.db.models import signals, Sum
 from django.dispatch import receiver
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
@@ -20,8 +20,7 @@ from model_utils.models import StatusModel, TimeStampedModel
 from pilkit.processors import ResizeToFill
 from rest_framework.serializers import ValidationError
 
-from restful.helpers import do_push_msgs
-from restful.models.affairs import Notice
+from restful.models.affairs import Affairs
 from restful.utils import createQRCode
 
 
@@ -336,6 +335,16 @@ def sync_profile(instance, created, **kwargs):
         #     print e.message
 
         # print 'sync do_push_msgs.'
+
+
+@receiver(signals.post_save, sender=Affairs)
+def post_affairs(instance, created, **kwargs):
+    if created:
+        print 'created'
+        pay = Affairs.objects.filter(owner=instance.owner, pay_type='in').aggregate(Sum('payment'))
+        obj, _ = UserProfile.objects.get_or_create(owner=instance.owner)
+        obj.total = pay.get('payment__sum')
+        obj.save()
 
 
 class Feedback(TimeStampedModel, StatusModel):

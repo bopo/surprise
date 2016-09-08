@@ -58,9 +58,9 @@ def apps(request):
     return render(request, 'apps.html', locals())
 
 
-def packet(request):
-    # from restful.tasks import _do_kground_work
-    # _do_kground_work.delay('GreenPine')
+def packet(request, slug=None):
+    slug = slug if slug is not None else ''
+    download_url = reverse(viewname='downloads', request=request, args=[slug])
     return render(request, 'packet.html', locals())
 
 
@@ -75,11 +75,11 @@ def share_invite(request, slug=None):
 def share_qrcode(request, slug=None):
     url = reverse(viewname='downloads', request=request, args=[slug])
     buf = StringIO()
+    txt = u'我是你的朋友, 我邀请你加入够惊喜'
 
-    text = u'我是你的朋友, 我邀请你加入够惊喜'
     image = Image.open(MEDIA_ROOT + '/thumb_IMG_0215_1024.jpg')
     image = watermark(image, createQRCode(url), ('center', 527))
-    image = watermark(image, text2img(text=text), ('center', 427))
+    image = watermark(image, text2img(text=txt), ('center', 427))
 
     if image:
         image.save(buf, 'png')
@@ -109,12 +109,12 @@ def downapps(request):
 
 
 def r(request, mark):
-    print mark
-    return HttpResponse(mark)
+    url = reverse(viewname='downloads', request=request, args=[mark])
+    return HttpResponseRedirect(url)
 
 
 def q(request, uid):
-    uid = short_url.decode_url(uid)
+    # uid = short_url.decode_url(uid)
     url = 'http://' + request.get_host() + '/r/%s' % uid
     img = createQRCode(url)
     buf = StringIO()

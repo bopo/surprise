@@ -58,7 +58,7 @@ def reward(today):
                     # 推送中奖消息
                     # @todo 推送消息调整 加到 `celery` 里
                     # Notification('reward').send(dict(1, 2, 3))
-                    do_push_notification({
+                    do_push_notification.delay({
                         'category': 'reward',
                         'username': x.owner.name,
                         'rebate': x.rebate,
@@ -86,46 +86,6 @@ class Job(BaseJob):
 
     def execute(self):
         return reward(today=now().date())
-
-        # if not has_exchange():
-        #     print Fore.RED + '[!!]', '今天是休息日,不能开奖'
-        #     return False
-        #
-        # today = now().date()
-        # value = Trend.objects.filter(exchange=today)
-        # total = 0
-        #
-        # if value:
-        #     # 选择开奖日期是今天的订单
-        #     orders = Trade.objects.filter(Q(exchange=today) & Q(rebate__isnull=True))
-        #     number = value.get().number
-        #
-        #     for x in orders:
-        #         if x.number[:3] == number[:3]:
-        #             x.reward = 1
-        #             x.rebate = '1.0'
-        #             x.save()
-        #         elif x.number[:2] == number[:2]:
-        #             x.reward = 1
-        #             x.rebate = '0.5'
-        #             x.save()
-        #         elif x.number[:1] == number[:1]:
-        #             x.reward = 1
-        #             x.rebate = '0.9'
-        #             x.save()
-        #
-        #         if x.reward == 1:
-        #             # 推送中奖消息
-        #             self.push_lottery(x)
-        #
-        #             # 发送短信通知
-        #             self.send_mobile(None)
-        #
-        #             total += 1
-        #
-        #     print Fore.GREEN + '[√] 今天的中奖人数 %s' % total
-        # else:
-        #     print Fore.RED + '[!!] error!'
 
     def push_lottery(self, obj):
         template = NoticeTemplate.objects.filter(slug='reward')
