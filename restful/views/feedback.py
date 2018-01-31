@@ -15,4 +15,5 @@ class FeedbackViewSet(mixins.CreateModelMixin, mixins.RetrieveModelMixin, viewse
     '''
     queryset = Feedback.objects.all()
     serializer_class = FeedbackSerializer
+
     # allowed_methods = ('POST', 'OPTIONS', 'HEAD')

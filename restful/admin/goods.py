@@ -23,7 +23,7 @@ class GoodsAdmin(VersionAdmin, ImportExportModelAdmin):
     def show_price(self, obj):
         return obj.promotion_price if obj.promotion_price else obj.price
 
-    def rate(self, obj):
+    def commission_rate_(self, obj):
         if obj.commission_rate:
             return '%.1f' % (float(obj.commission_rate) / 100.00) + '%'
         return ' - '
@@ -36,11 +36,11 @@ class GoodsAdmin(VersionAdmin, ImportExportModelAdmin):
     preview.short_description = u'商品图片'
     preview.allow_tags = True
 
-    rate.short_description = u'比率'
+    commission_rate_.short_description = u'比率'
     commission_price.short_description = u'返利'
 
     list_display = (
-        'preview', 'title', 'promotion_price', 'price', 'rate', 'commission_price', 'recommend', 'category_recommend',
+        'preview', 'title', 'promotion_price', 'price', 'commission_rate', 'recommend', 'category_recommend',
         'besting')
     list_filter = ('created', 'modified', 'status_changed', 'recommend', 'category', 'category_recommend')
     readonly_fields = ('status_changed', 'created', 'open_iid')
@@ -88,8 +88,9 @@ class CategoryAdmin(VersionAdmin, DraggableMPTTAdmin, ImportExportModelAdmin):
     form = select2_modelform(Category, attrs={'width': '250px'})
     resource_class = GoodsCategoryResource
     search_fields = ('name', 'goods__title')
-    # list_display = ('name', 'keyword', 'catids')
-    # list_editable = ('keyword', 'catids')
+    # list_display = ('name', 'total',)
+    # list_display_links = ('name',)
+    # list_editable = ('name', 'total')
     # list_filter = ('parent__parent',)
 
 
@@ -101,3 +102,5 @@ class CategoryAdmin(VersionAdmin, DraggableMPTTAdmin, ImportExportModelAdmin):
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Goods, GoodsAdmin)
 admin.site.register(PreselectionCategory, PreselectionCategoryAdmin)
+
+

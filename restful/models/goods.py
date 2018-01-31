@@ -2,9 +2,10 @@
 from __future__ import unicode_literals
 
 import json
-
 from django.conf import settings
 from django.db import models
+from django.db.models import signals
+from django.dispatch import receiver
 from django.utils.translation import ugettext_lazy as _
 from model_utils import Choices
 from model_utils.models import StatusModel
@@ -46,20 +47,21 @@ class GoodsCategory(MPTTModel):
     name = models.CharField(verbose_name=_(u'分类名称'), max_length=64, null=False)
     slug = models.SlugField(verbose_name=_(u'Slug'), default='', blank=True, null=True)
     cover = models.ImageField(verbose_name=_(u'分类图片'), max_length=200, blank=True, upload_to='category')
-    # cover = ProcessedImageField(verbose_name=_(u'分类图片'), upload_to='category', processors=[ResizeToFill(100, 100)],format='JPEG', null=True)
     parent = TreeForeignKey('self', null=True, blank=True, related_name='children')
     ordering = models.PositiveIntegerField(verbose_name=_(u'排序'), default=999, editable=False)
     is_active = models.BooleanField(verbose_name=_(u'激活'), default=False)
     keyword = models.CharField(verbose_name=_(u'分类关键字'), max_length=100, null=True, blank=True)
     channel = models.CharField(verbose_name=_(u'频道'), max_length=100, null=True, blank=True)
     catids = models.BigIntegerField(verbose_name=_(u'淘宝分类'), blank=True, null=True)
+    total = models.IntegerField(verbose_name=_(u'商品数'), blank=True, null=True, default=0)
 
     def __unicode__(self):
-        return self.name
+        return '%s (%d)' % (self.name, self.total)
 
     def __str__(self):
         return self.__unicode__()
 
+    # 元类
     class Meta:
         verbose_name = _(u'商品类别')
         verbose_name_plural = _(u'商品类别')
@@ -136,6 +138,8 @@ class Goods(StatusModel, TimeStampedModel):
     #     default='0.00')
 
     category = models.ForeignKey(GoodsCategory, verbose_name=_(u'商品分类'), null=True)
+
+
     recommend = models.BooleanField(verbose_name=_(u'是否推荐'), default=False)
     besting = models.BooleanField(verbose_name=_(u'是否"惊"推荐'), default=False)
 
@@ -497,8 +501,8 @@ class Collect(Goods):
     STATUS = Choices('ready', 'error', 'done')
     # category = models.ForeignKey(GoodsCategory, verbose_name=_(u'商品分类'), null=True)
 
-    from_name = models.CharField(verbose_name=_(u'标题'), max_length=255, blank=True, null=True)
-    # title = models.CharField(verbose_name=_(u'标题'), max_length=255, blank=True, null=True)
+    from_name = models.CharField(verbose_name=_(u'来源标题'), max_length=255, blank=True, null=True)
+    # source = models.CharField(verbose_name=_(u'来源'), max_length=255, blank=True, null=True)
     # price = models.DecimalField(verbose_name=_(u'价格'), max_digits=10, decimal_places=2, blank=True, null=True)
 
     # pic_url = models.URLField(verbose_name=_(u'图片url'), max_length=255, blank=True, null=True)
@@ -517,3 +521,22 @@ class Collect(Goods):
 
     def __str__(self):
         return self.__unicode__()
+
+
+@receiver(signals.post_save, sender=Goods)
+def sync_goods_total(instance, created, **kwargs):
+    if created:
+        # total = Goods.objects.filter(category=instance.category).count()
+
+        category = instance.category
+        category.total = int(category.total) + 1
+        category.save()
+
+        level = category.get_level()
+
+        while level:
+            level -= 1
+            category = category.parent
+            objects_ = GoodsCategory.objects.get(id=category.pk)
+            objects_.total = int(category.total) + 1
+            objects_.save()

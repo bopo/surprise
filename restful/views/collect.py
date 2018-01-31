@@ -133,6 +133,11 @@ class CollectViewSet(viewsets.GenericViewSet):
                 else:
                     print 'no fid'
 
+                if v.get('source'):
+                    collect.from_name = v.get('source')
+                else:
+                    print 'no fid'
+
                 if v.get('images', None):
                     collect.item_img = json.dumps(v.get('images'))
                 else:
@@ -146,7 +151,14 @@ class CollectViewSet(viewsets.GenericViewSet):
                 print 'no', v.get('title')
                 # except Exception, e:
                 #     raise e
-                return Response(e, status=status.HTTP_403_FORBIDDEN)
+                # data = {
+                #     'status': "error",
+                #     'domain': Site.objects.get(pk=settings.SITE_ID).domain,
+                #     'msg': "发布成功%d条单品" % nums,
+                #     'len': nums,
+                #     'tae': 0,
+                # }
+                # return Response(data, status=status.HTTP_403_FORBIDDEN)
 
         data = {
             'status': "success",

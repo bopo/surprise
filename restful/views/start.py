@@ -1,7 +1,5 @@
- # -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-
-import random
 
 from django.conf import settings
 from django.db.models import Q
@@ -165,11 +163,11 @@ class BestsViewSet(MultipleModelViewSet):
     '''
 
     def get_queryList(self):
-        object_ids = [random.randint(0, 200) for _ in range(30)]
+        # object_ids = [random.randint(0, 200) for _ in range(30)]
 
         queryList = (
             (Goods.objects.filter(besting=1)[:90], BestsGoodsSerializer, 'goods'),
-            (UserProfile.objects.exclude(avatar__isnull=True).filter(pk__in=object_ids)[:30], BestsProfileSerializer,
+            (UserProfile.objects.filter(avatar__isnull=False).order_by('?')[:30], BestsProfileSerializer,
             'users'),
         )
 

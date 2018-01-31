@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-import top
-import top.api
 from django.conf import settings
 from django.core.cache import cache
 from django.db.models import Q
@@ -13,6 +11,8 @@ from rest_framework import viewsets, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
+import top
+import top.api
 from restful.contrib.restauth.settings import TokenSerializer
 from restful.lottery import set_exchange
 from restful.models.banner import Banner
@@ -258,16 +258,19 @@ class RecommendViewSet(viewsets.ReadOnlyModelViewSet):
         category = self.request.query_params.get('category')
 
         if category:
-            if category not in ('1', '2', '90'):
+            if category not in ('1', '2', '90', '89'):
                 cats = GoodsCategory.objects.filter(id=category).get()
 
                 if cats.parent is None:
                     cats = [x.pk for x in cats.get_children()] if cats else []
+                    cats.append(category)
                     return self.queryset.filter(Q(category__in=cats))
                 else:
                     return self.queryset.filter(category=category)
             elif category in ('1', '2', '90'):
                 return self.queryset.filter(category_recommend=category)
+            elif category == '89':
+                return self.queryset.filter(category=category)
 
         return self.queryset
 

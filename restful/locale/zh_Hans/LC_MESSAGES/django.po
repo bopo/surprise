@@ -1,0 +1,1298 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-09-06 15:49+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: __init__.py:10
+msgid "API资源"
+msgstr ""
+
+#: contrib/consumer/__init__.py:9
+msgid "用户管理"
+msgstr ""
+
+#: contrib/consumer/models.py:96 contrib/restauth/forms.py:17
+msgid "手机号码"
+msgstr ""
+
+#: contrib/consumer/models.py:97
+msgid "短信码"
+msgstr ""
+
+#: contrib/consumer/models.py:98 contrib/restauth/registration/forms.py:40
+#: contrib/restauth/serializers.py:27
+msgid "设备号"
+msgstr ""
+
+#: contrib/consumer/models.py:99
+msgid "slug"
+msgstr ""
+
+#: contrib/consumer/models.py:100 contrib/restauth/registration/forms.py:45
+msgid "jpush_registration_id"
+msgstr ""
+
+#: contrib/consumer/models.py:127 contrib/consumer/models.py:128
+msgid "关注"
+msgstr ""
+
+#: contrib/consumer/models.py:134
+msgid "提现金额"
+msgstr ""
+
+#: contrib/consumer/models.py:135 contrib/consumer/models.py:283
+msgid "支付宝"
+msgstr ""
+
+#: contrib/consumer/models.py:136
+msgid "用户姓名"
+msgstr ""
+
+#: contrib/consumer/models.py:137
+msgid "是否分享"
+msgstr ""
+
+#: contrib/consumer/models.py:140 contrib/consumer/models.py:141
+msgid "提现记录"
+msgstr ""
+
+#: contrib/consumer/models.py:150 contrib/consumer/models.py:151
+msgid "我喜欢"
+msgstr ""
+
+#: contrib/consumer/models.py:161 contrib/consumer/models.py:162
+msgid "签到记录"
+msgstr ""
+
+#: contrib/consumer/models.py:170
+msgid "收藏内容的标题"
+msgstr ""
+
+#: contrib/consumer/models.py:171
+msgid "收藏内容的原文地址，不带域名"
+msgstr ""
+
+#: contrib/consumer/models.py:172
+msgid "收藏内容的描述"
+msgstr ""
+
+#: contrib/consumer/models.py:181 contrib/consumer/models.py:182
+msgid "收藏夹"
+msgstr ""
+
+#: contrib/consumer/models.py:202 contrib/consumer/models.py:356
+msgid "user"
+msgstr ""
+
+#: contrib/consumer/models.py:212
+msgid "latitude"
+msgstr ""
+
+#: contrib/consumer/models.py:213
+msgid "longitude"
+msgstr ""
+
+#: contrib/consumer/models.py:222 contrib/consumer/models.py:223
+msgid "User geographic"
+msgstr ""
+
+#: contrib/consumer/models.py:231
+msgid "登录ip"
+msgstr ""
+
+#: contrib/consumer/models.py:243 contrib/consumer/models.py:244
+msgid "登录记录"
+msgstr ""
+
+#: contrib/consumer/models.py:251
+msgid "credits"
+msgstr ""
+
+#: contrib/consumer/models.py:262 contrib/consumer/models.py:263
+msgid "积分记录"
+msgstr ""
+
+#: contrib/consumer/models.py:277
+msgid "姓名"
+msgstr ""
+
+#: contrib/consumer/models.py:278
+msgid "昵称"
+msgstr ""
+
+#: contrib/consumer/models.py:279
+msgid "电话"
+msgstr ""
+
+#: contrib/consumer/models.py:280 models/goods.py:142
+msgid "性别"
+msgstr ""
+
+#: contrib/consumer/models.py:281
+msgid "星座"
+msgstr ""
+
+#: contrib/consumer/models.py:282
+msgid "生日"
+msgstr ""
+
+#: contrib/consumer/models.py:284
+msgid "QQ"
+msgstr ""
+
+#: contrib/consumer/models.py:285
+msgid "生肖"
+msgstr ""
+
+#: contrib/consumer/models.py:287
+msgid "已经提现"
+msgstr ""
+
+#: contrib/consumer/models.py:288
+msgid "帐户余额"
+msgstr ""
+
+#: contrib/consumer/models.py:289
+msgid "帐户总额"
+msgstr ""
+
+#: contrib/consumer/models.py:291
+msgid "二维码"
+msgstr ""
+
+#: contrib/consumer/models.py:292
+msgid "头像"
+msgstr ""
+
+#: contrib/consumer/models.py:302
+msgid "profile"
+msgstr ""
+
+#: contrib/consumer/models.py:303
+msgid "profiles"
+msgstr ""
+
+#: contrib/consumer/models.py:346
+msgid "反馈类型"
+msgstr ""
+
+#: contrib/consumer/models.py:347
+msgid "反馈内容"
+msgstr ""
+
+#: contrib/consumer/models.py:348
+msgid "联系方式"
+msgstr ""
+
+#: contrib/consumer/models.py:358
+msgid "短信验证码"
+msgstr ""
+
+#: contrib/consumer/models.py:366 models/affairs.py:22 models/shared.py:43
+msgid "用户"
+msgstr ""
+
+#: contrib/consumer/models.py:367
+msgid "收信人"
+msgstr ""
+
+#: contrib/consumer/models.py:368
+msgid "城市"
+msgstr ""
+
+#: contrib/consumer/models.py:369 models/location.py:13
+msgid "详细地址"
+msgstr ""
+
+#: contrib/consumer/models.py:370
+msgid "移动电话"
+msgstr ""
+
+#: contrib/consumer/models.py:383 contrib/consumer/models.py:384
+msgid "用户行为"
+msgstr ""
+
+#: contrib/consumer/templates/emails/activation_email_message.html:4
+#: contrib/consumer/templates/emails/confirmation_email_message_new.html:4
+#, python-format
+msgid "Dear %(username)s,</p>"
+msgstr ""
+
+#: contrib/consumer/templates/emails/activation_email_message.html:5
+#, python-format
+msgid "<p>Thank you for signing up at %(site)s.</p>"
+msgstr ""
+
+#: contrib/consumer/templates/emails/activation_email_message.html:7
+#: contrib/consumer/templates/emails/activation_email_message.txt:6
+msgid "To activate your account you should click on the link below:"
+msgstr ""
+
+#: contrib/consumer/templates/emails/activation_email_message.html:11
+#: contrib/consumer/templates/emails/activation_email_message.txt:10
+#: contrib/consumer/templates/emails/confirmation_email_message_new.html:13
+#: contrib/consumer/templates/emails/confirmation_email_message_new.txt:12
+#: contrib/consumer/templates/emails/confirmation_email_message_old.html:13
+#: contrib/consumer/templates/emails/confirmation_email_message_old.txt:8
+#: contrib/consumer/templates/emails/password_reset_message.html:18
+#: contrib/consumer/templates/emails/password_reset_message.txt:14
+msgid "Thanks for using our site!"
+msgstr ""
+
+#: contrib/consumer/templates/emails/activation_email_message.html:12
+#: contrib/consumer/templates/emails/activation_email_message.txt:12
+#: contrib/consumer/templates/emails/confirmation_email_message_new.html:14
+#: contrib/consumer/templates/emails/confirmation_email_message_new.txt:14
+#: contrib/consumer/templates/emails/confirmation_email_message_old.html:16
+#: contrib/consumer/templates/emails/confirmation_email_message_old.txt:10
+#: contrib/consumer/templates/emails/password_reset_message.html:19
+#: contrib/consumer/templates/emails/password_reset_message.txt:16
+msgid "Sincerely"
+msgstr ""
+
+#: contrib/consumer/templates/emails/activation_email_message.txt:2
+#: contrib/consumer/templates/emails/confirmation_email_message_new.txt:2
+#: contrib/consumer/templates/emails/confirmation_email_message_old.html:4
+#: contrib/consumer/templates/emails/confirmation_email_message_old.txt:2
+#, python-format
+msgid "Dear %(username)s,"
+msgstr ""
+
+#: contrib/consumer/templates/emails/activation_email_message.txt:4
+#, python-format
+msgid "Thank you for signing up at %(site)s."
+msgstr ""
+
+#: contrib/consumer/templates/emails/activation_email_subject.txt:2
+#, python-format
+msgid "Your signup at %(site)s."
+msgstr ""
+
+#: contrib/consumer/templates/emails/confirmation_email_message_new.html:6
+#: contrib/consumer/templates/emails/confirmation_email_message_new.txt:4
+#, python-format
+msgid "You requested a change of your email address at %(site)s."
+msgstr ""
+
+#: contrib/consumer/templates/emails/confirmation_email_message_new.html:9
+#: contrib/consumer/templates/emails/confirmation_email_message_new.txt:7
+msgid "Please confirm this email address by clicking on the link below:"
+msgstr ""
+
+#: contrib/consumer/templates/emails/confirmation_email_message_old.html:6
+#: contrib/consumer/templates/emails/confirmation_email_message_old.txt:4
+#, python-format
+msgid "There was a request to change your email address at %(site)s."
+msgstr ""
+
+#: contrib/consumer/templates/emails/confirmation_email_message_old.html:10
+#: contrib/consumer/templates/emails/confirmation_email_message_old.txt:6
+#, python-format
+msgid ""
+"An email has been send to %(new_email)s which contains a verification link. "
+"Click on the link in this email to activate it."
+msgstr ""
+
+#: contrib/consumer/templates/emails/confirmation_email_subject_new.html:4
+#: contrib/consumer/templates/emails/confirmation_email_subject_new.txt:2
+#, python-format
+msgid "Email verification for %(site)s."
+msgstr ""
+
+#: contrib/consumer/templates/emails/confirmation_email_subject_old.txt:2
+#, python-format
+msgid "A request to change your email address is made at %(site)s."
+msgstr ""
+
+#: contrib/consumer/templates/emails/password_reset_message.html:5
+#, python-format
+msgid ""
+"You're receiving this e-mail because you requested a password reset\n"
+"            for your user account at %(site_name)s"
+msgstr ""
+
+#: contrib/consumer/templates/emails/password_reset_message.html:9
+#: contrib/consumer/templates/emails/password_reset_message.txt:5
+msgid "Please go to the following page and choose a new password:"
+msgstr ""
+
+#: contrib/consumer/templates/emails/password_reset_message.html:15
+#, python-format
+msgid "Your username, in case you've forgotten: %(username)s"
+msgstr ""
+
+#: contrib/consumer/templates/emails/password_reset_message.txt:2
+#, python-format
+msgid ""
+"You're receiving this e-mail because you requested a password reset\n"
+"for your user account at %(site_name)s"
+msgstr ""
+
+#: contrib/consumer/templates/emails/password_reset_message.txt:10
+#, python-format
+msgid ""
+"\n"
+"Your username, in case you've forgotten: %(username)s\n"
+msgstr ""
+
+#: contrib/restauth/__init__.py:10
+msgid "Restful 认证"
+msgstr ""
+
+#: contrib/restauth/models.py:29
+msgid "已读"
+msgstr ""
+
+#: contrib/restauth/models.py:29
+msgid "未读"
+msgstr ""
+
+#: contrib/restauth/models.py:30 contrib/restauth/registration/forms.py:38
+#: contrib/restauth/serializers.py:21
+msgid "手机号"
+msgstr ""
+
+#: contrib/restauth/models.py:31 contrib/restauth/models.py:39
+#: contrib/restauth/models.py:40 contrib/restauth/registration/forms.py:39
+#: contrib/restauth/serializers.py:26
+msgid "验证码"
+msgstr ""
+
+#: contrib/restauth/models.py:32
+msgid "状态"
+msgstr ""
+
+#: contrib/restauth/registration/adapter.py:50
+msgid "Usernames can only contain letters, digits and @/./+/-/_."
+msgstr ""
+
+#: contrib/restauth/registration/adapter.py:52
+msgid "Username can not be used. Please use other username."
+msgstr ""
+
+#: contrib/restauth/registration/adapter.py:54
+msgid "This username is already taken. Please choose another."
+msgstr ""
+
+#: contrib/restauth/registration/adapter.py:56
+msgid "Too many failed login attempts. Try again later."
+msgstr ""
+
+#: contrib/restauth/registration/adapter.py:284
+#, python-brace-format
+msgid "Password must be a minimum of {0} characters."
+msgstr ""
+
+#: contrib/restauth/registration/forms.py:42
+msgid "登陆密码"
+msgstr ""
+
+#: contrib/restauth/registration/forms.py:43 contrib/restauth/serializers.py:24
+msgid "确认密码"
+msgstr ""
+
+#: contrib/restauth/registration/forms.py:57
+msgid "手机号码不能为空."
+msgstr ""
+
+#: contrib/restauth/registration/forms.py:61
+msgid "两次密码不一致."
+msgstr ""
+
+#: contrib/restauth/registration/forms.py:73
+msgid "设备号码不能为空."
+msgstr ""
+
+#: contrib/restauth/registration/forms.py:77
+msgid "用户手机号码已经注册过."
+msgstr ""
+
+#: contrib/restauth/registration/forms.py:87
+msgid "该设备超出最大注册数."
+msgstr ""
+
+#: contrib/restauth/serializers.py:23
+msgid "登录密码"
+msgstr ""
+
+#: contrib/restauth/serializers.py:27
+msgid "隐藏字段,设备自动获取"
+msgstr ""
+
+#: contrib/restauth/serializers.py:30
+msgid "极光推送的registration_id"
+msgstr ""
+
+#: contrib/restauth/serializers.py:49
+msgid "必须包含 \"username\" 和 \"password\"."
+msgstr ""
+
+#: contrib/restauth/serializers.py:54
+msgid "用户帐户被禁用."
+msgstr ""
+
+#: contrib/restauth/serializers.py:56
+msgid "手机号或密码错误,无法登录."
+msgstr ""
+
+#: exception.py:45
+msgid "Not found."
+msgstr ""
+
+#: exception.py:52
+msgid "Permission denied."
+msgstr ""
+
+#: models/affairs.py:23 models/trade.py:20 models/trade.py:47
+#: models/trade.py:63 models/trade.py:69 models/trade.py:70
+msgid "淘宝订单"
+msgstr ""
+
+#: models/affairs.py:24
+msgid "发生额"
+msgstr ""
+
+#: models/affairs.py:25
+msgid "发生时间"
+msgstr ""
+
+#: models/affairs.py:26
+msgid "操作时间"
+msgstr ""
+
+#: models/affairs.py:27
+msgid "收支类型"
+msgstr ""
+
+#: models/affairs.py:31 models/affairs.py:32
+msgid "财务记录"
+msgstr ""
+
+#: models/affairs.py:51
+msgid "消息模板分类"
+msgstr ""
+
+#: models/affairs.py:52
+msgid "消息模板标题"
+msgstr ""
+
+#: models/affairs.py:53
+msgid "消息模板正文"
+msgstr ""
+
+#: models/affairs.py:62 models/affairs.py:63
+msgid "消息模板"
+msgstr ""
+
+#: models/affairs.py:70
+msgid "推送给用户"
+msgstr ""
+
+#: models/affairs.py:71
+msgid "消息置顶"
+msgstr ""
+
+#: models/affairs.py:72
+msgid "注册成功推送的消息"
+msgstr ""
+
+#: models/affairs.py:73
+msgid "注册成功后发送的消息,只能有一条. 用户设置为空, 必须为置顶"
+msgstr ""
+
+#: models/affairs.py:74
+msgid "消息标题"
+msgstr ""
+
+#: models/affairs.py:75
+msgid "消息正文"
+msgstr ""
+
+#: models/affairs.py:76
+msgid "模板名称"
+msgstr ""
+
+#: models/affairs.py:101 models/affairs.py:102
+msgid "用户消息"
+msgstr ""
+
+#: models/affairs.py:120
+msgid "年份"
+msgstr ""
+
+#: models/affairs.py:121
+msgid "休市日期集合"
+msgstr ""
+
+#: models/affairs.py:121
+msgid "多个用逗号分开."
+msgstr ""
+
+#: models/affairs.py:135 models/affairs.py:136
+msgid "休市日期"
+msgstr ""
+
+#: models/banner.py:11 models/start.py:9
+msgid "描述"
+msgstr ""
+
+#: models/banner.py:12
+msgid "网址"
+msgstr ""
+
+#: models/banner.py:13 models/bootstrap.py:82 models/goods.py:51
+#: models/goods.py:146 models/goods.py:407
+msgid "排序"
+msgstr ""
+
+#: models/banner.py:14 models/bootstrap.py:81
+msgid "图片"
+msgstr ""
+
+#: models/banner.py:19 models/banner.py:20 models/start.py:17
+#: models/start.py:18
+msgid "横幅广告"
+msgstr ""
+
+#: models/bootstrap.py:10 models/rules.py:9
+msgid "IOS"
+msgstr ""
+
+#: models/bootstrap.py:11 models/rules.py:9
+msgid "Android"
+msgstr ""
+
+#: models/bootstrap.py:46
+msgid "渠道名称"
+msgstr ""
+
+#: models/bootstrap.py:55 models/bootstrap.py:56
+msgid "安装渠道"
+msgstr ""
+
+#: models/bootstrap.py:60
+msgid "安装标记"
+msgstr ""
+
+#: models/bootstrap.py:61
+msgid "设备时区"
+msgstr ""
+
+#: models/bootstrap.py:62
+msgid "设备令牌"
+msgstr ""
+
+#: models/bootstrap.py:63
+msgid "设备编号"
+msgstr ""
+
+#: models/bootstrap.py:64
+msgid "设备类型"
+msgstr ""
+
+#: models/bootstrap.py:67 models/bootstrap.py:105
+msgid "推广渠道"
+msgstr ""
+
+#: models/bootstrap.py:76 models/bootstrap.py:77
+msgid "安装统计"
+msgstr ""
+
+#: models/bootstrap.py:83
+msgid "图片描述"
+msgstr ""
+
+#: models/bootstrap.py:86 models/bootstrap.py:87
+msgid "开机图片"
+msgstr ""
+
+#: models/bootstrap.py:102
+msgid "版本号"
+msgstr ""
+
+#: models/bootstrap.py:103
+msgid "安装连接"
+msgstr ""
+
+#: models/bootstrap.py:104
+msgid "文件验证码"
+msgstr ""
+
+#: models/bootstrap.py:106 models/reward.py:28 models/reward.py:55
+msgid "APP平台"
+msgstr ""
+
+#: models/bootstrap.py:126 models/bootstrap.py:127
+msgid "版本升级"
+msgstr ""
+
+#: models/goods.py:28
+msgid "ID"
+msgstr ""
+
+#: models/goods.py:29 models/scraper.py:16
+msgid "名称"
+msgstr ""
+
+#: models/goods.py:30
+msgid "类型"
+msgstr ""
+
+#: models/goods.py:31
+msgid "标示"
+msgstr ""
+
+#: models/goods.py:32
+msgid "层级"
+msgstr ""
+
+#: models/goods.py:33
+msgid "count"
+msgstr ""
+
+#: models/goods.py:34
+msgid "子类"
+msgstr ""
+
+#: models/goods.py:36 models/goods.py:54
+msgid "频道"
+msgstr ""
+
+#: models/goods.py:46 models/goods.py:403
+msgid "分类名称"
+msgstr ""
+
+#: models/goods.py:47
+msgid "Slug"
+msgstr ""
+
+#: models/goods.py:48
+msgid "分类图片"
+msgstr ""
+
+#: models/goods.py:52
+msgid "激活"
+msgstr ""
+
+#: models/goods.py:53
+msgid "分类关键字"
+msgstr ""
+
+#: models/goods.py:55
+msgid "淘宝分类"
+msgstr ""
+
+#: models/goods.py:64 models/goods.py:65
+msgid "商品类别"
+msgstr ""
+
+#: models/goods.py:77
+msgid "淘宝ID"
+msgstr ""
+
+#: models/goods.py:78
+msgid "描述信息"
+msgstr ""
+
+#: models/goods.py:110
+msgid "淘宝分类ID"
+msgstr ""
+
+#: models/goods.py:111 models/goods.py:433
+msgid "卖家昵称"
+msgstr ""
+
+#: models/goods.py:112
+msgid "卖家ID"
+msgstr ""
+
+#: models/goods.py:113
+msgid "商品所在地"
+msgstr ""
+
+#: models/goods.py:114
+msgid "卖家信用等级"
+msgstr ""
+
+#: models/goods.py:116 models/goods.py:435
+msgid "淘宝客佣金"
+msgstr ""
+
+#: models/goods.py:117 models/goods.py:436
+msgid "累计成交量"
+msgstr ""
+
+#: models/goods.py:118 models/goods.py:437
+msgid "淘宝客佣金比率"
+msgstr ""
+
+#: models/goods.py:119 models/goods.py:438
+msgid "累计总支出佣金量"
+msgstr ""
+
+#: models/goods.py:121
+msgid "折扣比率"
+msgstr ""
+
+#: models/goods.py:122
+msgid "折扣价格"
+msgstr ""
+
+#: models/goods.py:123
+msgid "折扣活动开始时间"
+msgstr ""
+
+#: models/goods.py:124
+msgid "折扣活动结束时间"
+msgstr ""
+
+#: models/goods.py:126 models/goods.py:440
+msgid "促销价格"
+msgstr ""
+
+#: models/goods.py:127 models/goods.py:441
+msgid "30天内交易量"
+msgstr ""
+
+#: models/goods.py:128 models/goods.py:442
+msgid "图片url"
+msgstr ""
+
+#: models/goods.py:129
+msgid "多张图片"
+msgstr ""
+
+#: models/goods.py:130 models/goods.py:443
+msgid "店铺类型:B(商城),C(集市)"
+msgstr ""
+
+#: models/goods.py:132
+msgid "商品ID"
+msgstr ""
+
+#: models/goods.py:133 models/goods.py:445 models/goods.py:500
+msgid "标题"
+msgstr ""
+
+#: models/goods.py:134 models/goods.py:446
+msgid "价格"
+msgstr ""
+
+#: models/goods.py:138 models/goods.py:406
+msgid "商品分类"
+msgstr ""
+
+#: models/goods.py:139
+msgid "是否推荐"
+msgstr ""
+
+#: models/goods.py:140
+msgid "是否\"惊\"推荐"
+msgstr ""
+
+#: models/goods.py:143 models/goods.py:447
+msgid "下架时间"
+msgstr ""
+
+#: models/goods.py:145
+msgid "分类推荐"
+msgstr ""
+
+#: models/goods.py:203 models/goods.py:204
+msgid "商品列表"
+msgstr ""
+
+#: models/goods.py:209 models/goods.py:210
+msgid "搜索历史"
+msgstr ""
+
+#: models/goods.py:288
+msgid "默认排序"
+msgstr ""
+
+#: models/goods.py:292
+msgid "最低30天累计推广量"
+msgstr ""
+
+#: models/goods.py:292
+msgid ""
+"（与返回数据中的commission_num字段对应）下限.注：该字段要与end_commissionNum"
+"一起使用才生效"
+msgstr ""
+
+#: models/goods.py:296
+msgid "最高30天累计推广量"
+msgstr ""
+
+#: models/goods.py:297
+msgid "（与返回数据中的commission_num字段对应）上限."
+msgstr ""
+
+#: models/goods.py:302
+msgid "最低佣金比率"
+msgstr ""
+
+#: models/goods.py:302
+msgid "如：1234表示12.34%"
+msgstr ""
+
+#: models/goods.py:307
+msgid "最高佣金比率"
+msgstr ""
+
+#: models/goods.py:308
+msgid ""
+"如：2345表示23.45%。注：start_commissionRate和end_commissionRate一起设置才有"
+"效。"
+msgstr ""
+
+#: models/goods.py:314
+msgid "最低卖家信用"
+msgstr ""
+
+#: models/goods.py:317
+msgid "最高卖家信用"
+msgstr ""
+
+#: models/goods.py:318
+msgid ""
+"可选值和start_credit一样.start_credit的值一定要小于或等于end_credit的值。注："
+"end_credit与start_credit一起使用才生效"
+msgstr ""
+
+#: models/goods.py:325
+msgid "起始价格"
+msgstr ""
+
+#: models/goods.py:326
+msgid ""
+"传入价格参数时,需注意起始价格和最高价格必须一起传入,并且 start_price <= "
+"end_price"
+msgstr ""
+
+#: models/goods.py:332
+msgid "最高价格"
+msgstr ""
+
+#: models/goods.py:338 models/goods.py:343
+msgid "商品总成交量"
+msgstr ""
+
+#: models/goods.py:339
+msgid "（与返回字段volume对应）下限。"
+msgstr ""
+
+#: models/goods.py:344
+msgid "（与返回字段volume对应）上限。"
+msgstr ""
+
+#: models/goods.py:350
+msgid "是否查询消保卖家"
+msgstr ""
+
+#: models/goods.py:351
+msgid "可选参数, 默认true"
+msgstr ""
+
+#: models/goods.py:386
+msgid "是否商城的商品"
+msgstr ""
+
+#: models/goods.py:387
+msgid ""
+"设置为true表示该商品是属于淘宝商城的商品，设置为false或不设置表示不判断这个属"
+"性"
+msgstr ""
+
+#: models/goods.py:394 models/goods.py:395
+msgid "搜索规则"
+msgstr ""
+
+#: models/goods.py:405 models/goods.py:431
+msgid "采集点"
+msgstr ""
+
+#: models/goods.py:408
+msgid "采集分类"
+msgstr ""
+
+#: models/goods.py:418 models/goods.py:419
+msgid "采集类别关联"
+msgstr ""
+
+#: models/goods.py:432
+msgid "淘宝真实ID"
+msgstr ""
+
+#: models/goods.py:449
+msgid "采集父分类"
+msgstr ""
+
+#: models/goods.py:450
+msgid "采集父分类ID"
+msgstr ""
+
+#: models/goods.py:452
+msgid "采集子分类"
+msgstr ""
+
+#: models/goods.py:453
+msgid "采集子分类ID"
+msgstr ""
+
+#: models/goods.py:505
+msgid "商品真id"
+msgstr ""
+
+#: models/goods.py:506
+msgid "转换"
+msgstr ""
+
+#: models/goods.py:512 models/goods.py:513
+msgid "采集临时库"
+msgstr ""
+
+#: models/keyword.py:10
+msgid "关键词"
+msgstr ""
+
+#: models/keyword.py:13 models/keyword.py:14
+msgid "搜索热词"
+msgstr ""
+
+#: models/location.py:11 models/trade.py:16
+msgid "登录用户"
+msgstr ""
+
+#: models/location.py:12
+msgid "设备号码"
+msgstr ""
+
+#: models/location.py:14 models/reward.py:30 models/reward.py:57
+msgid "位置坐标"
+msgstr ""
+
+#: models/location.py:17 models/location.py:18
+msgid "位置信息"
+msgstr ""
+
+#: models/prompt.py:9
+msgid "购买规则"
+msgstr ""
+
+#: models/prompt.py:10
+msgid "规则提示"
+msgstr ""
+
+#: models/prompt.py:11
+msgid "开奖时间"
+msgstr ""
+
+#: models/prompt.py:12
+msgid "一位中奖提示"
+msgstr ""
+
+#: models/prompt.py:13
+msgid "两位中奖提示"
+msgstr ""
+
+#: models/prompt.py:14
+msgid "三位中奖提示"
+msgstr ""
+
+#: models/prompt.py:15
+msgid "一位中奖比率"
+msgstr ""
+
+#: models/prompt.py:16
+msgid "两位中奖比率"
+msgstr ""
+
+#: models/prompt.py:17
+msgid "三位中奖比率"
+msgstr ""
+
+#: models/prompt.py:24 models/prompt.py:25
+msgid "提示文案"
+msgstr ""
+
+#: models/prompt.py:35
+msgid "最小价格"
+msgstr ""
+
+#: models/prompt.py:36
+msgid "最大价格"
+msgstr ""
+
+#: models/prompt.py:37 models/prompt.py:40 models/prompt.py:41
+msgid "中奖比率"
+msgstr ""
+
+#: models/reward.py:12
+msgid "大盘指数"
+msgstr ""
+
+#: models/reward.py:13
+msgid "指数日期"
+msgstr ""
+
+#: models/reward.py:16 models/reward.py:17
+msgid "指数记录"
+msgstr ""
+
+#: models/reward.py:27
+msgid "所属用户"
+msgstr ""
+
+#: models/reward.py:29 models/reward.py:56
+msgid "地址信息"
+msgstr ""
+
+#: models/reward.py:31 models/reward.py:58
+msgid "屏幕尺寸"
+msgstr ""
+
+#: models/reward.py:32 models/reward.py:61
+msgid "手机品牌"
+msgstr ""
+
+#: models/reward.py:33 models/reward.py:60
+msgid "手机型号"
+msgstr ""
+
+#: models/reward.py:36 models/reward.py:37
+msgid "首登奖励"
+msgstr ""
+
+#: models/reward.py:59
+msgid "对应奖品ID"
+msgstr ""
+
+#: models/reward.py:64 models/reward.py:65
+msgid "首登奖品"
+msgstr ""
+
+#: models/rules.py:13
+msgid "手机平台"
+msgstr ""
+
+#: models/rules.py:14
+msgid "淘口令规则"
+msgstr ""
+
+#: models/rules.py:17 models/rules.py:18
+msgid "口令规则"
+msgstr ""
+
+#: models/scraper.py:33
+msgid "auctionId"
+msgstr ""
+
+#: models/scraper.py:34
+msgid "categoryId"
+msgstr ""
+
+#: models/scraper.py:35
+msgid "URL"
+msgstr ""
+
+#: models/shared.py:11
+msgid "开始时间"
+msgstr ""
+
+#: models/shared.py:12
+msgid "过期时间"
+msgstr ""
+
+#: models/shared.py:13
+msgid "分享次数"
+msgstr ""
+
+#: models/shared.py:14
+msgid "奖励金额"
+msgstr ""
+
+#: models/shared.py:17 models/shared.py:18
+msgid "分享规则"
+msgstr ""
+
+#: models/shared.py:37
+msgid "分享平台"
+msgstr ""
+
+#: models/shared.py:38
+msgid "分享频道"
+msgstr ""
+
+#: models/shared.py:39
+msgid "商品开放ID"
+msgstr ""
+
+#: models/shared.py:39 models/shared.py:42
+msgid "非必须,可以为空"
+msgstr ""
+
+#: models/shared.py:41
+msgid "分享类型"
+msgstr ""
+
+#: models/shared.py:42 models/trade.py:21 models/trade.py:64
+msgid "商品标题"
+msgstr ""
+
+#: models/shared.py:45
+msgid "分享URL"
+msgstr ""
+
+#: models/shared.py:48 models/shared.py:49
+msgid "分享记录"
+msgstr ""
+
+#: models/total.py:10
+msgid "一位数"
+msgstr ""
+
+#: models/total.py:11
+msgid "两位数"
+msgstr ""
+
+#: models/total.py:12
+msgid "三位数"
+msgstr ""
+
+#: models/total.py:13
+msgid "兑奖数字"
+msgstr ""
+
+#: models/total.py:14 models/total.py:23 models/trade.py:28 models/trade.py:66
+msgid "兑奖时间"
+msgstr ""
+
+#: models/total.py:17
+msgid "中奖模拟数据"
+msgstr ""
+
+#: models/total.py:18
+msgid "中奖模拟"
+msgstr ""
+
+#: models/total.py:22
+msgid "大盘数字后三位"
+msgstr ""
+
+#: models/total.py:26 models/total.py:27
+msgid "大盘走势"
+msgstr ""
+
+#: models/trade.py:17 models/trade.py:61
+msgid "随机号码"
+msgstr ""
+
+#: models/trade.py:18 models/trade.py:20 models/trade.py:27
+msgid "必填项"
+msgstr ""
+
+#: models/trade.py:19 models/trade.py:62
+msgid "中奖概率"
+msgstr ""
+
+#: models/trade.py:22
+msgid "图片网址"
+msgstr ""
+
+#: models/trade.py:23
+msgid "淘宝商品ID"
+msgstr ""
+
+#: models/trade.py:24
+msgid "必填项,淘宝开放平台的 open_iid"
+msgstr ""
+
+#: models/trade.py:25
+msgid "单品价格"
+msgstr ""
+
+#: models/trade.py:26
+msgid "该商品的优惠价格 promotion_price 字段"
+msgstr ""
+
+#: models/trade.py:27
+msgid "购买数量"
+msgstr ""
+
+#: models/trade.py:29
+msgid "回扣率"
+msgstr ""
+
+#: models/trade.py:30
+msgid ""
+"选填项,区分是随机数,还是折扣商品, 数值为折扣的比例,例如: 0.9 代表九折, 空则为"
+"随机数商品"
+msgstr ""
+
+#: models/trade.py:31
+msgid "淘宝订单确认时间"
+msgstr ""
+
+#: models/trade.py:32
+msgid "淘宝订单状态"
+msgstr ""
+
+#: models/trade.py:33
+msgid "淘宝订单额外消息"
+msgstr ""
+
+#: models/trade.py:36 models/trade.py:37
+msgid "交易记录"
+msgstr ""
+
+#: models/trade.py:50 models/trade.py:51
+msgid "淘宝订单确认记录"
+msgstr ""
+
+#: models/trade.py:65
+msgid "商品开放id"
+msgstr ""
+
+#: models/watchword.py:11
+msgid "口令"
+msgstr ""
+
+#: models/watchword.py:12 serializers/goods.py:83
+msgid "排序方式"
+msgstr ""
+
+#: models/watchword.py:15 models/watchword.py:16
+msgid "淘客口令"
+msgstr ""
+
+#: serializers/goods.py:80
+msgid "关键字"
+msgstr ""
+
+#: serializers/goods.py:81
+msgid "当前页码"
+msgstr ""
+
+#: serializers/goods.py:82
+msgid "每页大小"
+msgstr ""
+
+#: serializers/trade.py:18
+msgid "随机数"
+msgstr ""

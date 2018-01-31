@@ -72,7 +72,7 @@ class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserProfile
         read_only_fields = ("payment", "balance", "total",)
-        fields = ("name", "nick", "phone", "avatar", "gender", "zodiac", "birthday", "alipay", "qq",
+        fields = ("name", "nick", "phone", "avatar", "gender", "zodiac", "chinese_zodiac", "birthday", "alipay", "qq",
         "payment", "balance", "total", "qrcode", "jpush_registration_id")
 
 

@@ -198,26 +198,27 @@ class QRCodeViewSet(viewsets.ModelViewSet):
         return self.request.user.shared_set.all()
 
 
-@receiver(post_save, sender=Shared)
-def shared_handler(sender, **kwargs):
-    instance = kwargs['instance']
-    rules = SharedRule.objects.order_by('-id').last()
-
-    if rules is not None:
-        count = Shared.objects.filter(owner=instance.owner, created__range=(rules.start_date, rules.end_date)).count()
-        if rules.number == count:
-            Affairs.objects.get_or_create(
-                owner=instance.owner,
-                payment=rules.price
-            )
-
-            # event = Event(user=instance.owner, event=instance)
-            # event.save()
-
-            # 推送事件
-            # 写入`notice`表
-            notice = Notice(owner=instance.owner, title=u'您有一笔新的入账',
-                content=u'分享奖励: 您分享了%s次,获得%s奖励' % (rules.number, rules.price))
-            notice.save()
-
-    print "Request finished!"
+# @receiver(post_save, sender=Shared)
+# def shared_handler(sender, **kwargs):
+#     instance = kwargs['instance']
+#     rules = SharedRule.objects.order_by('-id').last()
+#
+#     if rules is not None:
+#         count = Shared.objects.filter(owner=instance.owner, created__range=(rules.start_date, rules.end_date)).count()
+#
+#         if rules.number == count:
+#             Affairs.objects.get_or_create(
+#                 owner=instance.owner,
+#                 payment=rules.price
+#             )
+#
+#             # event = Event(user=instance.owner, event=instance)
+#             # event.save()
+#
+#             # 推送事件
+#             # 写入`notice`表
+#             notice = Notice(owner=instance.owner, title=u'您有一笔新的入账',
+#                 content=u'分享奖励: 您分享了%s次,获得%s奖励' % (rules.number, rules.price))
+#             notice.save()
+#
+#     print "Request finished!"

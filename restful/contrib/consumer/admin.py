@@ -6,7 +6,7 @@ from django.contrib.auth import get_user_model
 
 
 class ConsumerAdmin(admin.ModelAdmin):
-    list_display = ('username', 'mobile', 'device')
+    list_display = ('username', 'mobile', 'device', 'is_active')
 
 
 admin.site.register(get_user_model(), ConsumerAdmin)

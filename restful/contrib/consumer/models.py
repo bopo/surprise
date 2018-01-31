@@ -340,10 +340,10 @@ def sync_profile(instance, created, **kwargs):
 @receiver(signals.post_save, sender=Affairs)
 def post_affairs(instance, created, **kwargs):
     if created:
-        print 'created'
         pay = Affairs.objects.filter(owner=instance.owner, pay_type='in').aggregate(Sum('payment'))
         obj, _ = UserProfile.objects.get_or_create(owner=instance.owner)
-        obj.total = pay.get('payment__sum')
+        obj.total = float(pay.get('payment__sum'))
+        obj.balance = float(obj.total) - float(obj.payment)
         obj.save()
 
 
