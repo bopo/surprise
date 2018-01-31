@@ -36,8 +36,11 @@ TREND_URL = 'https://gupiao.baidu.com/stock/sh000001.html'
 BEST_RATE = 0.5
 FIRST_RATE = 0.5
 
-DOWNLOAD_ANDROID = 'https://www.pgyer.com/wzTi'
+# DOWNLOAD_ANDROID = 'https://www.pgyer.com/wzTi'
+# DOWNLOAD_ANDROID = 'http://api.gjingxi.com/media/downloads/android.apk'
+DOWNLOAD_ANDROID = 'http://url.cn/2Hw1ncX'
 DOWNLOAD_IOS = 'https://itunes.apple.com/cn/app/gou-jing-xi/id1089420214?mt=8'
+DOWNLOAD_URL = 'http://a.app.qq.com/o/simple.jsp?pkgname=com.surprisebuy.viewbrand'
 
 
 # 1、taobao_tae_BaichuanTradeCreated
@@ -62,3 +65,5 @@ ORDER_STATUS = (
     ('4', '退款后交易关闭'),
     ('8', '创建订单后交易关闭'),
 )
+
+GENDER_CHOICES = (('male', '男'), ('female', '女'))

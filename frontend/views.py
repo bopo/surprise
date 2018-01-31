@@ -1,17 +1,18 @@
 # -*- coding: utf-8 -*-
 import json
+import random
 
-import short_url
 from PIL import Image
 from django.conf import settings
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
+from django.utils.timezone import now, timedelta
 from django.views.decorators.cache import cache_page
 from rest_framework.reverse import reverse
 from wechatpy import WeChatOAuth
 
 from config.settings.setup import MEDIA_ROOT
-from restful.models.goods import Goods, GoodsCategory
+from restful.contrib.consumer.models import UserProfile
 from restful.utils import createQRCode, text2img, watermark
 
 try:
@@ -20,12 +21,32 @@ except ImportError:
     from StringIO import StringIO
 
 
+def packet(request, slug=None):
+    slug = slug if slug is not None else ''
+    download_url = reverse(viewname='downloads', request=request, args=[slug])
+    profile = UserProfile.objects.order_by('?').filter(avatar__isnull=False).all()[:10]
+    users = []
+    money = [round(random.uniform(1, 10), 2) for _ in range(10)]
+    money.sort()
+
+    for x in profile:
+        user = x
+        user.avatar = x.avatar.url if hasattr(x.avatar, 'url') else ''
+        user.name = x.owner.username
+        user.money = money.pop()
+        user.date = now() - timedelta(minutes=random.randint(5, 360))
+        users.append(user)
+        print user.money
+
+    return render(request, 'packet.html', locals())
+
+
 @cache_page(60 * 15)
 def home(request):
-    recommend = Goods.objects.order_by('-id').filter(recommend=1).all()[:10]
-    category = GoodsCategory.objects.all()
-
-    return render(request, 'index.html', locals())
+    return packet(request=request)
+    # recommend = Goods.objects.order_by('-id').filter(recommend=1).all()[:10]
+    # category = GoodsCategory.objects.all()
+    # return render(request, 'index.html', locals())
 
 
 # @cache_page(60 * 15)
@@ -58,12 +79,6 @@ def apps(request):
     return render(request, 'apps.html', locals())
 
 
-def packet(request, slug=None):
-    slug = slug if slug is not None else ''
-    download_url = reverse(viewname='downloads', request=request, args=[slug])
-    return render(request, 'packet.html', locals())
-
-
 def share_extract(request, slug=None):
     return render(request, 'share/invite.html', locals())
 
@@ -94,11 +109,11 @@ def share_prize(request, slug=None):
 
 
 def downloads(request, slug=None):
-    android_url = settings.DOWNLOAD_ANDROID
-    ios_url = settings.DOWNLOAD_IOS
-    return render(request, 'downloads.html', locals())
+    # android_url = settings.DOWNLOAD_ANDROID
+    # ios_url = settings.DOWNLOAD_IOS
+    # return render(request, 'downloads.html', locals())
     # itunes = 'https://itunes.apple.com/us/app/gou-jing-xi/id1089420214?l=zh&ls=1&mt=8'
-    # return HttpResponseRedirect(redirect_to=itunes)
+    return HttpResponseRedirect(redirect_to=settings.DOWNLOAD_URL)
 
 
 def downapps(request):

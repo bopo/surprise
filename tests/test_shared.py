@@ -13,7 +13,7 @@ class SharedTest(TestCase):
         self.user = get_user_model().objects.create_user('lauren')
         self.user.set_password('secret')
 
-        start_date = today+ timedelta(days=-7)
+        start_date = today+ timedelta(days=7)
         end_date = today + timedelta(days=7)
 
         # 初始化分享规则

@@ -15,6 +15,7 @@ urlpatterns = (
     url(r'^r/(?P<mark>.*)$', 'frontend.views.r', name='r'),
     url(r'^q/(?P<uid>.*)$', 'frontend.views.q', name='q'),
 
+    url(r'^$', 'frontend.views.home', name='home'),
     url(r'^help', 'frontend.views.help', name='help'),
     url(r'^packet$', 'frontend.views.packet', name='packet'),
     url(r'^packet/(?P<slug>.*)$', 'frontend.views.packet', name='packet'),
@@ -23,6 +24,7 @@ urlpatterns = (
     url(r'^oauth/wechat$', 'frontend.views.wechat'),
 
     url(r'^api/', include('restful.urls')),
+
     url(r'^admin/', include(admin.site.urls)),
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),

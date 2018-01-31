@@ -1,4 +1,5 @@
 {% load staticfiles %}
+{% load thumbnail %}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 		"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -50,51 +51,60 @@
 					<col width="122">
 				</colgroup>
 				<tbody class="W_textb">
+
+                {% for item in users %}
 				<tr>
-					<td><span class="rank_num top1">1</span></td>
-					<td><a target="_blank" href="" class="user_info"><img
-							src="http:&#47;&#47;tp1.sinaimg.cn&#47;1577211572&#47;180&#47;5708868694&#47;0" alt=""
-							width="48" height="48"><span class="nickname">Shelley125</span></a></td>
-					<td><p class="num"><span class="money">领到3 元</span></p></td>
-					<td></td>
-					<td><p class="num">2016-03-10 10:45:51</p></td>
+					<td><span class="rank_num top{{ forloop.counter }}">{{ forloop.counter }}</span></td>
+					<td>
+                        <a target="_blank" href="javascript:void(0);" class="user_info">
+                            <img src="{{ item.avatar }}" alt="" width="48" height="48">
+                            <span class="nickname">{{item.name}}</span>
+                        </a>
+                    </td>
+					<td>
+                        <p class="num"><span class="money">领到 {{ item.money }} 元</span></p></td>
+					<td>
+                    </td>
+					<td><p class="num">{{ item.date|date:'Y-m-d H:i' }}</p></td>
 				</tr>
-				<tr>
-					<td><span class="rank_num top2">2</span></td>
-					<td><a target="_blank" href="" class="user_info"><img
-							src="http:&#47;&#47;tp3.sinaimg.cn&#47;5068223990&#47;180&#47;40065302763&#47;0" alt=""
-							width="48" height="48"><span class="nickname">danphy1</span></a></td>
-					<td><p class="num"><span class="money">领到2.6 元</span></p></td>
-					<td></td>
-					<td><p class="num">2016-03-10 11:11:30</p></td>
-				</tr>
-				<tr>
-					<td><span class="rank_num top3">3</span></td>
-					<td><a target="_blank" href="" class="user_info"><img
-							src="http:&#47;&#47;tp2.sinaimg.cn&#47;2520691237&#47;180&#47;5749422360&#47;0" alt=""
-							width="48" height="48"><span class="nickname">hay浅</span></a></td>
-					<td><p class="num"><span class="money">领到2.5 元</span></p></td>
-					<td></td>
-					<td><p class="num">2016-03-10 11:22:18</p></td>
-				</tr>
-				<tr>
-					<td><span class="rank_num">4</span></td>
-					<td><a target="_blank" href="" class="user_info"><img
-							src="http:&#47;&#47;tp4.sinaimg.cn&#47;5298880771&#47;180&#47;5744033019&#47;0" alt=""
-							width="48" height="48"><span class="nickname">我是浅绿小跟班</span></a></td>
-					<td><p class="num"><span class="money">领到2.3 元</span></p></td>
-					<td></td>
-					<td><p class="num">2016-03-10 11:13:54</p></td>
-				</tr>
-				<tr>
-					<td><span class="rank_num">5</span></td>
-					<td><a target="_blank" href="" class="user_info"><img
-							src="http:&#47;&#47;tp4.sinaimg.cn&#47;5073359739&#47;180&#47;5752148432&#47;0" alt=""
-							width="48" height="48"><span class="nickname">污塔</span></a></td>
-					<td><p class="num"><span class="money">领到2.3 元</span></p></td>
-					<td></td>
-					<td><p class="num">2016-03-10 10:17:06</p></td>
-				</tr>
+                {% endfor %}
+{##}
+{#				<tr>#}
+{#					<td><span class="rank_num top2">2</span></td>#}
+{#					<td><a target="_blank" href="" class="user_info"><img#}
+{#							src="http:&#47;&#47;tp3.sinaimg.cn&#47;5068223990&#47;180&#47;40065302763&#47;0" alt=""#}
+{#							width="48" height="48"><span class="nickname">danphy1</span></a></td>#}
+{#					<td><p class="num"><span class="money">领到2.6 元</span></p></td>#}
+{#					<td></td>#}
+{#					<td><p class="num">2016-03-10 11:11:30</p></td>#}
+{#				</tr>#}
+{#				<tr>#}
+{#					<td><span class="rank_num top3">3</span></td>#}
+{#					<td><a target="_blank" href="" class="user_info"><img#}
+{#							src="http:&#47;&#47;tp2.sinaimg.cn&#47;2520691237&#47;180&#47;5749422360&#47;0" alt=""#}
+{#							width="48" height="48"><span class="nickname">hay浅</span></a></td>#}
+{#					<td><p class="num"><span class="money">领到2.5 元</span></p></td>#}
+{#					<td></td>#}
+{#					<td><p class="num">2016-03-10 11:22:18</p></td>#}
+{#				</tr>#}
+{#				<tr>#}
+{#					<td><span class="rank_num">4</span></td>#}
+{#					<td><a target="_blank" href="" class="user_info"><img#}
+{#							src="http:&#47;&#47;tp4.sinaimg.cn&#47;5298880771&#47;180&#47;5744033019&#47;0" alt=""#}
+{#							width="48" height="48"><span class="nickname">我是浅绿小跟班</span></a></td>#}
+{#					<td><p class="num"><span class="money">领到2.3 元</span></p></td>#}
+{#					<td></td>#}
+{#					<td><p class="num">2016-03-10 11:13:54</p></td>#}
+{#				</tr>#}
+{#				<tr>#}
+{#					<td><span class="rank_num">5</span></td>#}
+{#					<td><a target="_blank" href="" class="user_info"><img#}
+{#							src="http:&#47;&#47;tp4.sinaimg.cn&#47;5073359739&#47;180&#47;5752148432&#47;0" alt=""#}
+{#							width="48" height="48"><span class="nickname">污塔</span></a></td>#}
+{#					<td><p class="num"><span class="money">领到2.3 元</span></p></td>#}
+{#					<td></td>#}
+{#					<td><p class="num">2016-03-10 10:17:06</p></td>#}
+{#				</tr>#}
 				</tbody>
 			</table>
 			<!-- <div class="ta"><a href="" class="view_more">查看更多&gt;</a></div> -->

@@ -16,6 +16,7 @@ env.roledefs = {
     'slave': ['root@101.200.136.70'],
     'master': ['root@114.55.86.150'],
     'vagrant': ['vagrant@127.0.0.1'],
+    'pi': ['root@10.7.7.233'],
 }
 
 env.fixtures = (
@@ -40,6 +41,35 @@ env.excludes = (
 env.remote_dir = '/home/apps/surprise'
 env.local_dir = '.'
 env.database = 'surprise'
+env.check_urls = {
+    "start": "http://api.gjingxi.com/api/v1.0/start/",
+    "first": "http://api.gjingxi.com/api/v1.0/first/",
+    "trade": "http://api.gjingxi.com/api/v1.0/trade/",
+    "bests": "http://api.gjingxi.com/api/v1.0/bests/",
+    "query": "http://api.gjingxi.com/api/v1.0/query/",
+    "random": "http://api.gjingxi.com/api/v1.0/random/",
+    "search": "http://api.gjingxi.com/api/v1.0/search/",
+    "category": "http://api.gjingxi.com/api/v1.0/category/",
+    "feedback": "http://api.gjingxi.com/api/v1.0/feedback/",
+    "location": "http://api.gjingxi.com/api/v1.0/location/",
+    "recommend": "http://api.gjingxi.com/api/v1.0/recommend/",
+    "watchword": "http://api.gjingxi.com/api/v1.0/watchword/",
+    "collect": "http://api.gjingxi.com/api/v1.0/collect/",
+    "preselection": "http://api.gjingxi.com/api/v1.0/preselection/"
+}
+
+@task
+def d2u():
+    local('find . "*.html" | xargs dos2unix')
+    local('find . "*.css" | xargs dos2unix')
+    local('find . "*.md" | xargs dos2unix')
+    local('find . "*.js" | xargs dos2unix')
+
+
+@task
+def cron(action='check'):
+    with prefix('workon surprise'), cd(env.remote_dir):
+        run('python schedule.py %s' % action)
 
 
 @task

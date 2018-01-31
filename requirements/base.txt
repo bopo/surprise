@@ -62,3 +62,6 @@ click
 plan
 django-allauth
 colorama
+
+py-moneyed
+django-money

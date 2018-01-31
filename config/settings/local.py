@@ -70,32 +70,32 @@ if DEBUG:
     LOGGING = {
         'version': 1,
         'disable_existing_loggers': False,
-        'handlers': {
-            'console': {
-                'level': 'DEBUG',
-                'class': 'logging.StreamHandler',
-                # 'class': 'logging.handlers.RotatingFileHandler',
-                # 'filename': os.path.join('runtime', 'debug.log'),
-                # 'maxBytes': 1024 * 1024 * 5,  # 5 MB
-                # 'backupCount': 5,
-                # # 'formatter': 'standard',
-            },
-        },
-        'default': {
-            'level': 'DEBUG',
-            'class': 'logging.handlers.RotatingFileHandler',
-            'filename': os.path.join('runtime', 'debug.log'),
-            'maxBytes': 1024 * 1024 * 5,  # 5 MB
-            'backupCount': 5,
-            'formatter': 'standard',
-        },
-        'loggers': {
-            'django.db.backends': {
-                'handlers': ['console'],
-                'propagate': True,
-                'level': 'DEBUG',
-            },
-        }
+        # 'handlers': {
+        #     'console': {
+        #         'level': 'DEBUG',
+        #         'class': 'logging.StreamHandler',
+        #         # 'class': 'logging.handlers.RotatingFileHandler',
+        #         # 'filename': os.path.join('runtime', 'debug.log'),
+        #         # 'maxBytes': 1024 * 1024 * 5,  # 5 MB
+        #         # 'backupCount': 5,
+        #         # # 'formatter': 'standard',
+        #     },
+        # },
+        # 'default': {
+        #     'level': 'DEBUG',
+        #     'class': 'logging.handlers.RotatingFileHandler',
+        #     'filename': os.path.join('runtime', 'debug.log'),
+        #     'maxBytes': 1024 * 1024 * 5,  # 5 MB
+        #     'backupCount': 5,
+        #     'formatter': 'standard',
+        # },
+        # 'loggers': {
+        #     'django.db.backends': {
+        #         'handlers': ['console'],
+        #         'propagate': True,
+        #         'level': 'DEBUG',
+        #     },
+        # }
 
     }
 

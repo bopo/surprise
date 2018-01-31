@@ -3,7 +3,7 @@
 PIP=$(VIRTUAL_ENV)/bin/pip 
 PY=$(VIRTUAL_ENV)/bin/python
 
-.PHONY: clean-pyc clean-build docs pack clean clean-others req pep8
+.PHONY: clean-pyc clean-build docs pack clean clean-others req pep8 req.base req.all
 
 help:
 	@echo "clean - remove all build, test, coverage and Python artifacts"

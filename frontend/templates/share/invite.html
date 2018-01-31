@@ -64,7 +64,7 @@ img {
 <body>
 <!--页面主体部分-->
 <div class="cash_box">
-  <div class="center"><a data-href="http://a.app.qq.com/o/simple.jsp?pkgname={{ pkgname }}"><img src="/share/qrcode/{{slug}}"/></a></div>
+  <div class="center"><a href="{% url 'downloads' slug %}"><img src="/share/qrcode/{{slug}}"/></a></div>
 </div>
 </body>
 </html>
