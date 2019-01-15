@@ -1,0 +1,99 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>购惊喜 app</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+        }
+
+        .wrapper {
+            position: relative;
+        }
+
+        .wrapper img {
+            width: 100%;
+        }
+
+        .con {
+            position: absolute;
+            z-index: 100;
+            width: 100%;
+            text-align: center;
+            bottom: 48%;
+        }
+
+        .con img {
+            width: 100%;
+        }
+
+        .con .btn {
+            width: 222px;
+            height: 66px;
+            display: block;
+            line-height: 16px;
+            max-width: 50%;
+            margin: 0 auto;
+            border: none;
+            text-decoration: none;
+        }
+
+        .con p {
+            font-size: 20px;
+            white-space: nowrap;
+        }
+
+
+        .con2 {
+            position: absolute;
+            z-index: 100;
+            width: 100%;
+            text-align: center;
+            bottom: 35%;
+        }
+
+        .con2 img {
+            width: 100%;
+        }
+
+        .con2 .btn {
+            width: 222px;
+            height: 66px;
+            display: block;
+            line-height: 16px;
+            max-width: 50%;
+            margin: 0 auto;
+            border: none;
+            text-decoration: none;
+        }
+
+        .con2 p {
+            font-size: 20px;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body>
+
+
+<div class="wrapper">
+    <img alt="" src="{% static 'frontend/img/download.png' %}"/>
+    <div class="con">
+        <a class="btn" href="{{ android_url }}" id="btn">
+            <img alt="" src="{% static 'frontend/img/btn_android.png' %}"/>
+        </a>
+    </div>
+    <div class="con2">
+        <a class="btn" href="{{ ios_url }}" id="btn">
+            <img alt="" src="{% static 'frontend/img/btn_ios.png' %}"/>
+        </a>
+    </div>
+</div>
+
+
+</body>
+</html>
